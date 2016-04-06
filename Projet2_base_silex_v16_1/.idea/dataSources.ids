@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - apegeot3@localhost" uuid="f54206aa-69aa-4e0e-825a-489681f8ae3a">
+    <database-info product="MySQL" version="5.6.25-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <database-model serializer="dbm" rdbms="MYSQL" format-version="2.2">
+      <schema id="1" name="apegeot3"/>
+      <table id="2" parent="1" name="adherent"/>
+      <table id="3" parent="1" name="club"/>
+      <table id="4" parent="1" name="estinscrit"/>
+      <table id="5" parent="1" name="etudiant"/>
+      <table id="6" parent="1" name="niveau"/>
+      <table id="7" parent="1" name="ordinateur"/>
+      <table id="8" parent="1" name="participe"/>
+      <table id="9" parent="1" name="pays"/>
+      <table id="10" parent="1" name="possede"/>
+      <table id="11" parent="1" name="salle"/>
+      <table id="12" parent="1" name="stage"/>
+      <table id="13" parent="1" name="stocks"/>
+      <table id="14" parent="1" name="typeproduits"/>
+      <table id="15" parent="1" name="utilisateurs"/>
+      <table id="16" parent="1" name="ville"/>
+      <column id="17" parent="2" name="noAdh">
+        <mandatory>1</mandatory>
+        <data-type>int(4)</data-type>
+      </column>
+      <column id="18" parent="2" name="nomAdh">
+        <data-type>varchar(40)</data-type>
+      </column>
+      <column id="19" parent="2" name="prenomAdh">
+        <data-type>varchar(40)</data-type>
+      </column>
+      <column id="20" parent="2" name="adresseAdh">
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="21" parent="2" name="telAdh">
+        <data-type>varchar(12)</data-type>
+      </column>
+      <column id="22" parent="2" name="emailAdh">
+        <data-type>varchar(80)</data-type>
+      </column>
+      <column id="23" parent="2" name="dateNaissanceAdh">
+        <data-type>date</data-type>
+      </column>
+      <column id="24" parent="2" name="identifiantAdh">
+        <data-type>varchar(30)</data-type>
+      </column>
+      <column id="25" parent="2" name="noVille">
+        <data-type>int(11)</data-type>
+      </column>
+      <key id="26" parent="2" name="PRIMARY">
+        <columns>noAdh</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="27" parent="2" name="adherent_ibfk_1">
+        <columns>noVille</columns>
+        <ref-key>ville.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="28" parent="3" name="noClub">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="29" parent="3" name="nomClub">
+        <data-type>varchar(60)</data-type>
+      </column>
+      <column id="30" parent="3" name="loginClub">
+        <data-type>varchar(30)</data-type>
+      </column>
+      <column id="31" parent="3" name="mdpClub">
+        <data-type>varchar(16)</data-type>
+      </column>
+      <column id="32" parent="3" name="nomContactClub">
+        <data-type>varchar(30)</data-type>
+      </column>
+      <column id="33" parent="3" name="prenomContactClub">
+        <data-type>varchar(30)</data-type>
+      </column>
+      <column id="34" parent="3" name="numTelContactClub">
+        <data-type>varchar(12)</data-type>
+      </column>
+      <column id="35" parent="3" name="mailContactClub">
+        <data-type>varchar(80)</data-type>
+      </column>
+      <column id="36" parent="3" name="noVille">
+        <data-type>int(11)</data-type>
+      </column>
+      <key id="37" parent="3" name="PRIMARY">
+        <columns>noClub</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="38" parent="3" name="club_ibfk_1">
+        <columns>noVille</columns>
+        <ref-key>ville.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="39" parent="4" name="noAdh">
+        <mandatory>1</mandatory>
+        <data-type>int(4)</data-type>
+        <default-expression>&apos;0&apos;</default-expression>
+      </column>
+      <column id="40" parent="4" name="noClub">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+        <default-expression>&apos;0&apos;</default-expression>
+      </column>
+      <column id="41" parent="4" name="annee">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+        <default-expression>&apos;0&apos;</default-expression>
+      </column>
+      <column id="42" parent="4" name="etat">
+        <data-type>int(1)</data-type>
+      </column>
+      <key id="43" parent="4" name="PRIMARY">
+        <columns>noAdh
+noClub
+annee</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="44" parent="4" name="estinscrit_ibfk_1">
+        <columns>noAdh</columns>
+        <ref-key>adherent.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="45" parent="4" name="estinscrit_ibfk_2">
+        <columns>noClub</columns>
+        <ref-key>club.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="46" parent="5" name="id_Etudiant">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="47" parent="5" name="nom_Etudiant">
+        <data-type>varchar(25)</data-type>
+      </column>
+      <column id="48" parent="6" name="noNiveau">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="49" parent="6" name="libelleNiveau">
+        <data-type>varchar(50)</data-type>
+      </column>
+      <key id="50" parent="6" name="PRIMARY">
+        <columns>noNiveau</columns>
+        <primary>1</primary>
+      </key>
+      <column id="51" parent="7" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="52" parent="7" name="type_machine">
+        <data-type>varchar(30)</data-type>
+      </column>
+      <column id="53" parent="7" name="nom_machine">
+        <data-type>varchar(100)</data-type>
+      </column>
+      <column id="54" parent="7" name="ram">
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="55" parent="7" name="dateInstallation">
+        <data-type>date</data-type>
+      </column>
+      <column id="56" parent="7" name="idSalle">
+        <data-type>int(10)</data-type>
+      </column>
+      <key id="57" parent="7" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="58" parent="7" name="ordinateur_ibfk_1">
+        <columns>idSalle</columns>
+        <ref-key>salle.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="59" parent="8" name="noAdh">
+        <mandatory>1</mandatory>
+        <data-type>int(4)</data-type>
+        <default-expression>&apos;0&apos;</default-expression>
+      </column>
+      <column id="60" parent="8" name="noStage">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+        <default-expression>&apos;0&apos;</default-expression>
+      </column>
+      <key id="61" parent="8" name="PRIMARY">
+        <columns>noAdh
+noStage</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="62" parent="8" name="participe_ibfk_1">
+        <columns>noAdh</columns>
+        <ref-key>adherent.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="63" parent="8" name="participe_ibfk_2">
+        <columns>noStage</columns>
+        <ref-key>stage.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="64" parent="9" name="noPays">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="65" parent="9" name="nomPays">
+        <data-type>varchar(30)</data-type>
+      </column>
+      <column id="66" parent="9" name="codePays">
+        <data-type>varchar(5)</data-type>
+      </column>
+      <key id="67" parent="9" name="PRIMARY">
+        <columns>noPays</columns>
+        <primary>1</primary>
+      </key>
+      <column id="68" parent="10" name="noAdh">
+        <mandatory>1</mandatory>
+        <data-type>int(4)</data-type>
+        <default-expression>&apos;0&apos;</default-expression>
+      </column>
+      <column id="69" parent="10" name="noNiveau">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+        <default-expression>&apos;0&apos;</default-expression>
+      </column>
+      <column id="70" parent="10" name="noEnregistrement">
+        <data-type>varchar(40)</data-type>
+      </column>
+      <column id="71" parent="10" name="dateObtention">
+        <data-type>date</data-type>
+      </column>
+      <column id="72" parent="10" name="noVille">
+        <data-type>int(11)</data-type>
+      </column>
+      <key id="73" parent="10" name="PRIMARY">
+        <columns>noAdh
+noNiveau</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="74" parent="10" name="possede_ibfk_1">
+        <columns>noAdh</columns>
+        <ref-key>adherent.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <foreign-key id="75" parent="10" name="possede_ibfk_2">
+        <columns>noNiveau</columns>
+        <ref-key>niveau.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="76" parent="11" name="idSalle">
+        <mandatory>1</mandatory>
+        <data-type>int(10)</data-type>
+      </column>
+      <column id="77" parent="11" name="nom">
+        <data-type>varchar(20)</data-type>
+      </column>
+      <key id="78" parent="11" name="PRIMARY">
+        <columns>idSalle</columns>
+        <primary>1</primary>
+      </key>
+      <column id="79" parent="12" name="noStage">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="80" parent="12" name="dateDebutStage">
+        <data-type>date</data-type>
+      </column>
+      <column id="81" parent="12" name="dateFinStage">
+        <data-type>date</data-type>
+      </column>
+      <column id="82" parent="12" name="noVille">
+        <data-type>int(11)</data-type>
+      </column>
+      <key id="83" parent="12" name="PRIMARY">
+        <columns>noStage</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="84" parent="12" name="stage_ibfk_1">
+        <columns>noVille</columns>
+        <ref-key>ville.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+      <column id="85" parent="13" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10)</data-type>
+      </column>
+      <column id="86" parent="13" name="produit_id">
+        <data-type>int(10)</data-type>
+      </column>
+      <column id="87" parent="13" name="quantite">
+        <data-type>float(4,2)</data-type>
+      </column>
+      <column id="88" parent="13" name="dateLivraison">
+        <data-type>date</data-type>
+      </column>
+      <key id="89" parent="13" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="90" parent="14" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10)</data-type>
+      </column>
+      <column id="91" parent="14" name="libelle">
+        <data-type>varchar(50)</data-type>
+      </column>
+      <key id="92" parent="14" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="93" parent="15" name="id">
+        <mandatory>1</mandatory>
+        <data-type>int(10)</data-type>
+      </column>
+      <column id="94" parent="15" name="login">
+        <data-type>varchar(20)</data-type>
+      </column>
+      <column id="95" parent="15" name="motdepasse">
+        <data-type>varchar(20)</data-type>
+      </column>
+      <column id="96" parent="15" name="email">
+        <data-type>varchar(50)</data-type>
+      </column>
+      <column id="97" parent="15" name="droit">
+        <data-type>varchar(20)</data-type>
+      </column>
+      <key id="98" parent="15" name="PRIMARY">
+        <columns>id</columns>
+        <primary>1</primary>
+      </key>
+      <column id="99" parent="16" name="noVille">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="100" parent="16" name="nomVille">
+        <data-type>varchar(50)</data-type>
+      </column>
+      <column id="101" parent="16" name="cpVille">
+        <data-type>varchar(8)</data-type>
+      </column>
+      <column id="102" parent="16" name="noPays">
+        <data-type>int(11)</data-type>
+      </column>
+      <key id="103" parent="16" name="PRIMARY">
+        <columns>noVille</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="104" parent="16" name="ville_ibfk_1">
+        <columns>noPays</columns>
+        <ref-key>pays.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+    </database-model>
+  </data-source>
+</component>

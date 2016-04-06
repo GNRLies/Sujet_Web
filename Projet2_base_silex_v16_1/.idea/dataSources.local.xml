@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="MySQL - apegeot3@localhost" uuid="f54206aa-69aa-4e0e-825a-489681f8ae3a">
+      <secret-storage>master_key</secret-storage>
+      <user-name>apegeot3</user-name>
+      <schema-pattern>apegeot3.*</schema-pattern>
+      <default-schemas>apegeot3.*</default-schemas>
+    </data-source>
+  </component>
+</project>
