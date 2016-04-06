@@ -1,18 +1,18 @@
-DROP TABLE  IF EXISTS paniers,commandes, produits, users, typeProduits, etats;
+DROP TABLE  IF EXISTS paniers,commandes, jeux, users, typeJeux, etats;
 
 -- --------------------------------------------------------
--- Structure de la table typeproduits
+-- Structure de la table typejeux
 --
-CREATE TABLE IF NOT EXISTS typeProduits (
+CREATE TABLE IF NOT EXISTS typeJeux (
   id int(10) NOT NULL,
   libelle varchar(50) DEFAULT NULL,
   PRIMARY KEY (id)
 )  DEFAULT CHARSET=utf8;
--- Contenu de la table typeproduits
-INSERT INTO typeProduits (id, libelle) VALUES
-(1, 'type 1'),
-(2, 'type 2'),
-(3, 'type 3');
+-- Contenu de la table typejeux
+INSERT INTO typejeux (id, libelle) VALUES
+(1, 'action'),
+(2, 'aventure'),
+(3, 'rpg');
 
 -- --------------------------------------------------------
 -- Structure de la table etats
@@ -24,28 +24,29 @@ CREATE TABLE IF NOT EXISTS etats (
 ) DEFAULT CHARSET=utf8 ;
 -- Contenu de la table etats
 INSERT INTO etats (id, libelle) VALUES
-(1, 'A préparer'),
-(2, 'Expédié');
+(1, 'A preparer'),
+(2, 'Expedition');
 
 -- --------------------------------------------------------
--- Structure de la table produits
+-- Structure de la table jeux
 
-CREATE TABLE IF NOT EXISTS produits (
+CREATE TABLE IF NOT EXISTS jeux (
   id int(10) NOT NULL AUTO_INCREMENT,
-  typeProduit_id int(10) DEFAULT NULL,
+  typeJeux_id int(10) DEFAULT NULL,
   nom varchar(50) DEFAULT NULL,
   prix float(6,2) DEFAULT NULL,
   photo varchar(50) DEFAULT NULL,
+  plateforme varchar(50) DEFAULT NULL,
   dispo tinyint(4) NOT NULL,
   stock int(11) NOT NULL,
   PRIMARY KEY (id),
-  CONSTRAINT fk_produits_typeProduits FOREIGN KEY (typeProduit_id) REFERENCES typeProduits (id)
+  CONSTRAINT fk_jeux_typeJeux FOREIGN KEY (typeJeux_id) REFERENCES typeJeux (id)
 ) DEFAULT CHARSET=utf8 ;
 
-INSERT INTO produits (id,typeProduit_id,nom,prix,photo,dispo,stock) VALUES
-(1,1, 'produit 1','100','imageProduit.jpeg',1,5),
-(2,1, 'produit 2','5.5','imageProduit.jpeg',1,4),
-(3,2, 'produit 3','8.5','imageProduit.jpeg',1,10);
+INSERT INTO jeux (id,typeJeux_id,nom,prix,photo,plateforme,dispo,stock) VALUES
+(1,1, 'Battlefield 4','40','Battlefield_4.jpeg','PC',1,5),
+(2,2, 'Rise of the Tomb Raider','50','Rise_of_the_Tomb_Raider.jpeg','PC',1,4),
+(3,3, 'Dragon Quest 8','30','dragon_quest_8.jpeg','PS2',1,10);
 
 
 -- --------------------------------------------------------
@@ -99,11 +100,11 @@ CREATE TABLE IF NOT EXISTS paniers (
   prix float(6,2) NOT NULL,
   dateAjoutPanier timestamp default CURRENT_TIMESTAMP,
   user_id int(11) NOT NULL,
-  produit_id int(11) NOT NULL,
+  jeux_id int(11) NOT NULL,
   commande_id int(11) DEFAULT NULL,
   PRIMARY KEY (id),
   CONSTRAINT fk_paniers_users FOREIGN KEY (user_id) REFERENCES users (id),
-  CONSTRAINT fk_paniers_produits FOREIGN KEY (produit_id) REFERENCES produits (id),
+  CONSTRAINT fk_paniers_jeux FOREIGN KEY (jeux_id) REFERENCES jeux (id),
   CONSTRAINT fk_paniers_commandes FOREIGN KEY (commande_id) REFERENCES commandes (id)
 ) DEFAULT CHARSET=utf8 ;
 
