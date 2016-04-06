@@ -1,0 +1,4 @@
+projet_test1_yml:
+    resource: "@projetTest1YMLBundle/Resources/config/routing.yml"
+    prefix:   /
+

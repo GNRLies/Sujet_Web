@@ -1,0 +1,27 @@
+<html>
+<body>
+maPage1Test<br>
+<a href="#ancreBidon">lien sur NQ</a><br>
+<br>
+<a href="{{ url('maRoute1SurPage1') }}">lien 1 sur la page 1</a><br>
+{<a href="{{ path('maRoute1SurPage2') }}">lien 1 sur la page 2</a><br>}
+{<a href="{{ path('maRoute2SurPage2') }}">lien 2 sur la page 2</a><br>}
+{<a href="{{ path('maRoute2SurPage2', {'param':'valeur du paramètre'}) }}">lien 1 sur la page 2 avec un paramètre</a><br>}
+
+
+{<form action="{{ path('maRoute2SurPage2') }}" method="get">}
+{<input type="text" value="essai1" name="param"/>}
+{</form><br>}
+{route méthode POST}
+{<form action="{{ path('maRoute3SurPage2') }}" method="POST">}
+{<input type="text" value="essai2" name="param" />}
+{</form><br>
+
+{route méthode PUT}
+{<form action="{{ path('maRoute4SurPage2') }}" method="POST">}
+{<input type="hidden" name="_method" value="PUT">}
+{<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">}
+{<input type="text" value="essai" name="input1"/>}
+{</form>#}
+</body>
+</html>

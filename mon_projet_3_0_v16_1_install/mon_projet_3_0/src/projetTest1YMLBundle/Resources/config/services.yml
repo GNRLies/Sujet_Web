@@ -1,0 +1,4 @@
+services:
+#    projet_test1_yml.example:
+#        class: projetTest1YMLBundle\Example
+#        arguments: ["@service_id", "plain_value", %parameter%]
