@@ -2,24 +2,25 @@
 {% block contenu %}
 	<div class="row">
 		{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
+
 		{% endif %}
 
 		<table>
 			<caption>Recapitulatifs des produits (avec twig)</caption>
 			<thead>
-			<tr><th>nom</th><th>id</th><th>type</th><th>prix</th><th>plateforme</th><th>photo</th>
+			<tr><th>id</th><th>quantite</th><th>prix</th><th>dateAjoutPanier</th><th>user_id</th><th>jeux_id</th><th>commande_id</th>
 				{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
 					<th>opération</th>
 				{% endif %}
 			</tr>
 			</thead>
 			<tbody>
-			{% for Jeux in data if data is not empty %}
+			{% for Paniers in data if data is not empty %}
 
 				<tr>
-					<td>{{Jeux.nom}}</td><td>{{Jeux.id}}</td><td>{{Jeux.libelle}}</td><td>{{Jeux.prix}}</td><td>
-						{{Jeux.plateforme}}</td><td>
-						<img style="width:40px;height:40px" src="{{asset('images/')}}{{Jeux.photo}}" alt="image de {{Jeux.libelle}}" >
+					<td>{{Panier.id}}</td><td>{{Panier.quantite}}</td><td>{{Panier.prix}}</td><td>{{Panier.dateAjoutPanier}}</td><td>
+						{{Panier.user_id}}</td><td> {{Panier.jeux_id}}
+					</td><td> {{Panier.commande_id}}
 					</td>
 					{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
 						<td>
