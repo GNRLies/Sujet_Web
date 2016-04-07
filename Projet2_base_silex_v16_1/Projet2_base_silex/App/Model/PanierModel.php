@@ -13,7 +13,7 @@ class PanierModel {
         $this->db = $app['db'];
     }
     // http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/query-builder.html#join-clauses
-    public function getAllJeux() {
+    public function getAllPanier() {
 //        $sql = "SELECT p.id, t.libelle, p.nom, p.prix, p.photo
 //            FROM produits as p,typeProduits as t
 //            WHERE p.typeProduit_id=t.id ORDER BY p.nom;";
