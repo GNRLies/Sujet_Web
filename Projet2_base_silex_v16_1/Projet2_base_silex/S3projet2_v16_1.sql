@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS jeux (
 ) DEFAULT CHARSET=utf8 ;
 
 INSERT INTO jeux (id,typeJeux_id,nom,prix,photo,plateforme,dispo,stock) VALUES
-(1,1, 'Battlefield 4','40','Battlefield_4.jpeg','PC',1,5),
+(1,1, 'Battlefield 4','40','Battlefield_4.jpeg','PS4',1,5),
 (2,2, 'Rise of the Tomb Raider','50','Rise_of_the_Tomb_Raider.jpeg','PC',1,4),
 (3,3, 'Dragon Quest 8','30','dragon_quest_8.jpeg','PS2',1,10);
 
