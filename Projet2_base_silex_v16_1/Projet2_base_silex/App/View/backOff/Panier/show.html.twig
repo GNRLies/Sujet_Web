@@ -15,12 +15,12 @@
 			</tr>
 			</thead>
 			<tbody>
-			{% for Paniers in data if data is not empty %}
+			{% for panier in data if data is not empty %}
 
 				<tr>
-					<td>{{Panier.id}}</td><td>{{Panier.quantite}}</td><td>{{Panier.prix}}</td><td>{{Panier.dateAjoutPanier}}</td><td>
-						{{Panier.user_id}}</td><td> {{Panier.jeux_id}}
-					</td><td> {{Panier.commande_id}}
+					<td>{{panier.id}}</td><td>{{panier.quantite}}</td><td>{{panier.prix}}</td><td>{{panier.dateAjoutPanier}}</td><td>
+						{panier.user_id}}</td><td> {{panier.jeux_id}}
+					</td><td> {{panier.commande_id}}
 					</td>
 					{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
 						<td>
