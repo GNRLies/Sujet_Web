@@ -19,6 +19,7 @@ class PanierModel {
 //            WHERE p.typeProduit_id=t.id ORDER BY p.nom;";
 //        $req = $this->db->query($sql);
 //        return $req->fetchAll();
+       // $userid = app.session.get("id");
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
             ->select('p.id', 'p.quantite', 'p.prix', 'p.dateAjoutPanier', 'p.user_id', 'p.jeux_id', 'p.commande_id')
@@ -26,10 +27,24 @@ class PanierModel {
             ->innerJoin('p', 'users', 'u', 'p.user_id=u.id')
             ->innerJoin('p', 'jeux', 'j', 'p.jeux_id=j.id')
             ->innerJoin('p', 'commandes', 'c', 'p.commande_id=c.id')
+            ->where('p.user_id = ?')
             ->addOrderBy('p.id', 'ASC');
         return $queryBuilder->execute()->fetchAll();
 
     }
+
+    function countNbProduitLigne($produit_id,$user_id){
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder
+            ->select('count(produit_id)')->from('panier')
+            ->where('produit_id= :idProduit')
+            ->andWhere('user_id = :idUser')
+            ->andWhere('commande_id is Null')
+            ->setParameter('idProduit',$produit_id)->setParameter('idUser',$user_id);
+        return $queryBuilder->execute()->
+}
+
+
 
 
 }

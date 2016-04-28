@@ -28,17 +28,26 @@ class PanierController implements ControllerProviderInterface
     }
 
     public function show(Application $app) {
+        $this->produitModel = new ProduitModel($app);
         $this->panierModel = new PanierModel($app);
         $panier = $this->panierModel->getAllPanier();
         return $app["twig"]->render('backOff/Panier/show.html.twig',['data'=>$panier]);
     }
 
-//    public function add(Application $app) {
-//        $this->typeProduitModel = new TypeProduitModel($app);
-//        $typeProduits = $this->typeProduitModel->getAllTypeProduits();
-//        return $app["twig"]->render('backOff/Produit/add.html.twig',['typeProduits'=>$typeProduits,'path'=>BASE_URL]);
-//        return "add Produit";
-//    }
+    public function add(Application $app, Request $req) {
+        $this->produitModel = new ProduitModel($app);
+	$this->panierModel = new PanierModel($app);
+	$produit_id = $app->escape($req->get('produit_id'));
+	$client_id = $app['session']->get('user_id');
+	if($this->panierModel->countNbProduitLigne($produit_id,$client_id)>0) {
+        $this->panierModel->updateLigneAdd($produit_id, $client_id);
+    }
+    else {
+        $this->panierModel->insertLigne($produit_id,$client_id);
+    }
+	return $app->redirect($app["url_generator"]->generate("Panier.index"));
+
+}
 //
 //    public function validFormAdd(Application $app, Request $req) {
 //       // var_dump($app['request']->attributes);

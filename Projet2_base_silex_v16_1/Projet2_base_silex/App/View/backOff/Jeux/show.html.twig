@@ -7,7 +7,7 @@
 		<table>
 			<caption>Recapitulatifs des produits (avec twig)</caption>
 			<thead>
-			<tr><th>nom</th>><th>type</th><th>prix</th><th>plateforme</th><th>photo</th><th>stock</th><th>dispo</th>
+			<tr><th>nom</th>><th>type</th><th>prix</th><th>plateforme</th><th>photo</th><th>stock</th><th>dispo</th><th>Ajouter au panier</th>
 				{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
 					<th>opération</th>
 				{% endif %}
@@ -27,6 +27,7 @@
 						<td>
 						</td>
 					{% endif %}
+					<td><a href="{{ path('Jeux.show') }}"> <img src={{asset('images/boutonajout.jpg')}} style="width:50px" ></a></td>
 				</tr>
 			{% endfor %}
 			<tbody>
