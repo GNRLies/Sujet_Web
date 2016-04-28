@@ -6,9 +6,9 @@
 		{% endif %}
 
 		<table>
-			<caption>Recapitulatifs des produits (avec twig)</caption>
+			<caption> Votre pannier </caption>
 			<thead>
-			<tr><th>id</th><th>quantite</th><th>prix</th><th>dateAjoutPanier</th><th>user_id</th><th>jeux_id</th><th>commande_id</th>
+			<tr><th>nom</th></th><th>prix</th><th>dateAjoutPanier<th>quantite</th></th>
 				{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
 					<th>opération</th>
 				{% endif %}
@@ -18,8 +18,7 @@
 			{% for panier in data if data is not empty %}
 
 				<tr>
-					<td>{{panier.id}}</td><td>{{panier.quantite}}</td><td>{{panier.prix}}</td><td>{{panier.dateAjoutPanier}}</td><td>
-						{panier.user_id}}</td><td> {{panier.jeux_id}}
+					<td>{{panier.nom}}</td><td>{{panier.prix}}</td><td>{{panier.dateAjoutPanier}}</td><td>{{panier.quantite}}</td><td>}
 					</td><td> {{panier.commande_id}}
 					</td>
 					{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
