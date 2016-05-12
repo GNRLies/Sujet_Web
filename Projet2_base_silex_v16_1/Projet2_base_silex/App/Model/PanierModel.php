@@ -66,6 +66,7 @@ class PanierModel {
             ->setParameter('jeux_id',$jeux_id)->setParameter('idUser',$user_id);
         return $queryBuilder->execute()->fetchColumn(0);
     }
+    //fais
 
 
 
