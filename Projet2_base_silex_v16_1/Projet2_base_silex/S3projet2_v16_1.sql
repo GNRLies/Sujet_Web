@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS jeux (
   prix float(6,2) DEFAULT NULL,
   photo varchar(50) DEFAULT NULL,
   plateforme varchar(50) DEFAULT NULL,
-  dispo tinyint(4) NOT NULL,
+  dispo int(4) NOT NULL,
   stock int(11) NOT NULL,
   PRIMARY KEY (id),
   CONSTRAINT fk_jeux_typeJeux FOREIGN KEY (typeJeux_id) REFERENCES typeJeux (id)
