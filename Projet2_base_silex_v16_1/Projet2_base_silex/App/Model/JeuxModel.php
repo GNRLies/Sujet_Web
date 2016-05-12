@@ -13,11 +13,6 @@ class JeuxModel {
         $this->db = $app['db'];
     }
     public function getAllJeux() {
-        $sql = "SELECT p.id, t.libelle, p.nom, p.prix, p.photo,p.plateforme,p.dispo
-            FROM jeux as p,typeJeux as t
-            WHERE p.typeJeux_id=t.id ORDER BY p.nom;";
-        $req = $this->db->query($sql);
-        return $req->fetchAll();
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
             ->select('j.id', 'j.typeJeux_id', 'j.nom', 'j.prix', 'j.photo', 'j.plateforme', 'j.dispo', 'j.stock', 't.libelle')

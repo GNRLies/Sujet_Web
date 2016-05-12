@@ -28,6 +28,23 @@ class PanierModel {
 
     }
 
+    function  insertPanier($jeux_id,$user_id){
+        $queryBuilder = new QueryBuilder($this->db);
+        $prix = (float) $queryBuilder->select('prix')->from('jeux')->where('id=:jeux_id')
+            ->setParameter('jeux_id', $jeux_id)->execute()->fetchColumn(0);
+        $queryBuilder->insert('paniers')
+            ->values([
+                'quantite' => '1',
+                'prix' =>':prix',
+                'user_id' => ':user_id',
+                'jeux_id' => ':jeux_id',
+            ])
+            ->setParameter('prix', $prix)
+            ->setParameter('user_id', $user_id)
+            ->setParameter('jeux_id', $jeux_id)
+        ;
+        return $queryBuilder->execute();
+    }
 //    function countNbProduitLigne($produit_id,$user_id){
 //        $queryBuilder = new QueryBuilder($this->db);
 //        $queryBuilder
