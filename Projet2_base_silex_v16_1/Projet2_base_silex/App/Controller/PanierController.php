@@ -211,8 +211,8 @@ class PanierController implements ControllerProviderInterface
         $controllers->get('/', 'App\Controller\PanierController::index')->bind('Panier.index');
         $controllers->get('/show', 'App\Controller\PanierController::show')->bind('Panier.show');
 
-        $controllers->get('/add', 'App\Controller\JeuxController::add')->bind('Jeux.add');
-        $controllers->post('/add', 'App\Controller\JeuxController::validFormAdd')->bind('Jeux.validFormAdd');
+
+        $controllers->get('/add', 'App\Controller\PanierController::add')->bind('Panier.add');
 
         $controllers->get('/delete/{id}', 'App\Controller\JeuxController::delete')->bind('Jeux.delete')->assert('id', '\d+');;
         $controllers->delete('/delete', 'App\Controller\JeuxController::validFormDelete')->bind('Jeux.validFormDelete');

@@ -24,7 +24,7 @@
 						{{Jeux.dispo}}</td>
 					{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
 					{% endif %}
-					<td><a href="{{ path('Jeux.show') }}"> <img src={{asset('images/boutonajout.jpg')}} style="width:50px" ></a></td>
+					<td><a href="{{ path('Panier.add') }}"> <img src={{asset('images/boutonajout.jpg')}} style="width:50px" ></a></td>
 				</tr>
 			{% endfor %}
 			<tbody>
