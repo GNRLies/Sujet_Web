@@ -8,8 +8,6 @@ use Silex\Application;
 class PanierModel {
 
     private $db;
-    private $panierModel;
-    private $jeuxModel;
 
     public function __construct(Application $app) {
         $this->db = $app['db'];
@@ -30,26 +28,45 @@ class PanierModel {
 
     }
 
-    public function add($app, $req) {
-        $panierModel = new PanierModel($app);
-        $jeuxModel = new JeuxModel($app);
-        $jeux_id = $app->escape($req->get('id'));
-        $user_id = $app['session']->get('user_id');
+    function  insertPanier($jeux_id,$user_id){
+        $queryBuilder = new QueryBuilder($this->db);
+        $prix = (float) $queryBuilder->select('prix')->from('jeux')->where('id=:jeux_id')
+            ->setParameter('jeux_id', $jeux_id)->execute()->fetchColumn(0);
+        $queryBuilder->insert('paniers')
+            ->values([
+                'quantite' => '1',
+                'prix' =>':prix',
+                'user_id' => ':user_id',
+                'jeux_id' => ':jeux_id',
+            ])
+            ->setParameter('prix', $prix)
+            ->setParameter('user_id', $user_id)
+            ->setParameter('jeux_id', $jeux_id)
+        ;
+        return $queryBuilder->execute();
     }
-
-
-
-//    function countNbProduitLigne($produit_id,$user_id){
-//        $queryBuilder = new QueryBuilder($this->db);
-//        $queryBuilder
-//            ->select('count(produit_id)')->from('panier')
-//            ->where('produit_id= :idProduit')
-//            ->andWhere('user_id = :idUser')
-//            ->andWhere('commande_id is Null')
-//            ->setParameter('idProduit',$produit_id)->setParameter('idUser',$user_id);
-//        return $queryBuilder->execute()->
-//}
-
+    function deletePanier($jeux_id,$user_id){
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder
+            ->delete('paniers')
+            ->where('jeux_id = :jeux_id')
+            ->andWhere('$user_id = :$user_id')
+            ->setParameter('jeux_id',$jeux_id)
+            ->setParameter('user_id',$user_id)
+        ;
+        return $queryBuilder->execute();
+    }
+    function countNbJeuxLigne($jeux_id,$user_id){
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder
+            ->select('count(jeux_id)')->from('paniers')
+            ->where('jeux_id= :jeux_id')
+            ->andWhere('user_id = :idUser')
+            ->andWhere('commande_id is Null')
+            ->setParameter('jeux_id',$jeux_id)->setParameter('idUser',$user_id);
+        return $queryBuilder->execute()->fetchColumn(0);
+    }
+    //fais
 
 
 
