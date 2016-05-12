@@ -13,6 +13,11 @@ class JeuxModel {
         $this->db = $app['db'];
     }
     public function getAllJeux() {
+        $sql = "SELECT p.id, t.libelle, p.nom, p.prix, p.photo,p.plateforme,p.dispo
+            FROM jeux as p,typeJeux as t
+            WHERE p.typeJeux_id=t.id ORDER BY p.nom;";
+        $req = $this->db->query($sql);
+        return $req->fetchAll();
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
             ->select('j.id', 'j.typeJeux_id', 'j.nom', 'j.prix', 'j.photo', 'j.plateforme', 'j.dispo', 'j.stock', 't.libelle')
@@ -23,54 +28,67 @@ class JeuxModel {
 
     }
 
-    public function insertProduit($donnees) {
+    public function insertJeux($donnees) {
         $queryBuilder = new QueryBuilder($this->db);
-        $queryBuilder->insert('produits')
+        $queryBuilder->insert('Jeux')
             ->values([
                 'nom' => '?',
-                'typeProduit_id' => '?',
+                'typeJeux_id' => '?',
                 'prix' => '?',
-                'photo' => '?'
+                'photo' => '?',
+                'plateforme' => '?',
+                'dispo' => '?',
+                'stock' => '?'
             ])
             ->setParameter(0, $donnees['nom'])
-            ->setParameter(1, $donnees['typeProduit_id'])
+            ->setParameter(1, $donnees['typeJeux_id'])
             ->setParameter(2, $donnees['prix'])
             ->setParameter(3, $donnees['photo'])
+            ->setParameter(4, $donnees['plateforme'])
+            ->setParameter(5, $donnees['dispo'])
+            ->setParameter(6, $donnees['stock']
+            )
         ;
         return $queryBuilder->execute();
     }
 
-    function getProduit($id) {
+    function getJeux($id) {
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
-            ->select('id', 'typeProduit_id', 'nom', 'prix', 'photo')
-            ->from('produits')
+            ->select('id', 'typeJeux_id', 'nom', 'prix', 'photo','dispo','plateforme','dispo','stock')
+            ->from('Jeux')
             ->where('id= :id')
             ->setParameter('id', $id);
         return $queryBuilder->execute()->fetch();
     }
 
-    public function updateProduit($donnees) {
+    public function updateJeux($donnees) {
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
-            ->update('produits')
+            ->update('Jeux')
             ->set('nom', '?')
-            ->set('typeProduit_id','?')
+            ->set('typeJeux_id','?')
             ->set('prix','?')
             ->set('photo','?')
+            ->set('plateforme','?')
+            ->set('dispo','?')
+            ->set('stock','?')
             ->where('id= ?')
             ->setParameter(0, $donnees['nom'])
-            ->setParameter(1, $donnees['typeProduit_id'])
+            ->setParameter(1, $donnees['typeJeux_id'])
             ->setParameter(2, $donnees['prix'])
             ->setParameter(3, $donnees['photo'])
+            ->setParameter(2, $donnees['plateforme'])
+            ->setParameter(3, $donnees['dispo'])
+            ->setParameter(3, $donnees['stock'])
             ->setParameter(4, $donnees['id']);
         return $queryBuilder->execute();
     }
 
-    public function deleteProduit($id) {
+    public function deleteJeux($id) {
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
-            ->delete('produits')
+            ->delete('Jeux')
             ->where('id = :id')
             ->setParameter('id',(int)$id)
         ;

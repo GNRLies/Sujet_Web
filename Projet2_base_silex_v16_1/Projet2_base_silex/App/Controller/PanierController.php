@@ -44,14 +44,15 @@ class PanierController implements ControllerProviderInterface
 
     public function validFormAdd(Application $app, Request $req) {
         var_dump($app['request']->attributes);
-        if (isset($_POST['nom']) && isset($_POST['typeJeux_id']) and isset($_POST['nom']) and isset($_POST['photo']) and isset($_POST['plateforme']) and isset($_POST['dispo'])) {
+        if (isset($_POST['nom']) && isset($_POST['typeJeux_id']) and isset($_POST['nom']) and isset($_POST['photo']) and isset($_POST['plateforme']) and isset($_POST['dispo']) and isset($_POST['stock'])) {
             $donnees = [
                 'nom' => htmlspecialchars($_POST['nom']),                     //echapper les entrées
                 'typeJeux_id' => htmlspecialchars($app['request']->get('typeJeux_id')),
                 'prix' => htmlspecialchars($req->get('prix')),
                 'photo' => $app->escape($req->get('photo')),
                 'plateforme' => htmlspecialchars($req->get('plateforme')),
-                'dispo' => htmlspecialchars($req->get('dispo'))
+                'dispo' => htmlspecialchars($req->get('dispo')),
+                'stock' => htmlspecialchars($req->get('stock'))
             ];
             if ((!preg_match("/^[A-Za-z ]{2,}/", $donnees['nom']))) $erreurs['nom'] = 'nom composé de 2 lettres minimum';
             if (!is_numeric($donnees['typeJeux_id'])) $erreurs['typeJeux_id'] = 'veuillez saisir une valeur';
@@ -59,6 +60,7 @@ class PanierController implements ControllerProviderInterface
             if (!preg_match("/[A-Za-z0-9]{2,}.(jpeg|jpg|png)/", $donnees['photo'])) $erreurs['photo'] = 'nom de fichier incorrect (extension jpeg , jpg ou png)';
             if ((!preg_match("/^[A-Za-z ]{2,}/", $donnees['plateforme']))) $erreurs['plateforme'] = 'nom composé de 2 lettres minimum';
             if (!is_numeric($donnees['dispo'])) $erreurs['dispo'] = 'saisir une valeur numérique';
+            if (!is_numeric($donnees['stock'])) $erreurs['stock'] = 'saisir une valeur numérique';
 
             if(! empty($erreurs))
             {
@@ -127,6 +129,7 @@ class PanierController implements ControllerProviderInterface
                 'prix' => htmlspecialchars($req->get('prix')),
                 'plateforme' => htmlspecialchars($req->get('plateforme')),
                 'dispo' => htmlspecialchars($req->get('dispo')),
+                'stock' => htmlspecialchars($req->get('stock')),
                 'photo' => $app->escape($req->get('photo')),
                 'id' => $app->escape($req->get('id')),
                 $req->query->get('photo')
@@ -136,6 +139,7 @@ class PanierController implements ControllerProviderInterface
             if (!is_numeric($donnees['prix'])) $erreurs['prix'] = 'saisir une valeur numérique';
             if ((!preg_match("/^[A-Za-z ]{2,}/", $donnees['plateforme']))) $erreurs['plateforme'] = 'nom composé de 2 lettres minimum';
             if (!is_numeric($donnees['dispo'])) $erreurs['dispo'] = 'saisir une valeur numérique';
+            if (!is_numeric($donnees['stock'])) $erreurs['stock'] = 'saisir une valeur numérique';
             if (!preg_match("/[A-Za-z0-9]{2,}.(jpeg|jpg|png)/", $donnees['photo'])) $erreurs['photo'] = 'nom de fichier incorrect (extension jpeg , jpg ou png)';
             if (!is_numeric($donnees['id'])) $erreurs['id'] = 'saisir une valeur numérique';
             $contraintes = new Assert\Collection(
@@ -164,7 +168,11 @@ class PanierController implements ControllerProviderInterface
                     'dispo' => new Assert\Type(array(
                         'type' => 'numeric',
                         'message' => 'La valeur {{ value }} n\'est pas valide, le type est {{ type }}.',
-                    ))
+                    )),
+                    'stock' => new Assert\Type(array(
+                        'type' => 'numeric',
+                        'message' => 'La valeur {{ value }} n\'est pas valide, le type est {{ type }}.',
+                    )),
 
                 ]);
             $errors = $app['validator']->validate($donnees, $contraintes);   //ce n'est pas validateValue

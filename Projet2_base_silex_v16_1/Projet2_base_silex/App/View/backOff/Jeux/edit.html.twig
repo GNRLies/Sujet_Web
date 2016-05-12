@@ -1,6 +1,6 @@
 {% extends "layout.html.twig" %}
 {% block contenu %}
-	<form method="post" action="{{ path('produit.validFormEdit') }}">
+	<form method="post" action="{{ path('jeux.validFormEdit') }}">
 		<div class="row">
 
 
@@ -17,7 +17,7 @@
 			{% endif %}
 
 			<fieldset>
-				<legend>Modifier un produit  (avec twig)</legend>
+				<legend>Modifier un jeux  (avec twig)</legend>
 				<input name="id"  type="hidden" value="{{donnees.id}}" />
 				<label>Nom :
 					<input name="nom"  type="text"  size="18" value="{{donnees.nom}}" />
@@ -26,16 +26,16 @@
 					{% endif %}
 				</label>
 				<label>Type :
-					<select name="typeProduit_id">
-						{% for typeProduit in typeProduits %}
-							<option value="{{ typeProduit.id }}"
-									{% if donnees.typeProduit_id is defined and typeProduit.id == donnees.typeProduit_id %} selected {% endif %}>
-								{{ typeProduit.libelle }}
+					<select name="typeJeux_id">
+						{% for typeJeux in typeJeuxs %}
+							<option value="{{ typeJeux.id }}"
+									{% if donnees.typeJeux_id is defined and typeJeux.id == donnees.typeJeux_id %} selected {% endif %}>
+								{{ typeJeux.libelle }}
 							</option>
 						{% endfor %}
 					</select>
-					{% if erreurs.typeProduit_id is defined %}
-						<small class="error">{{erreurs.typeProduit_id}}</small>
+					{% if erreurs.typeJeux_id is defined %}
+						<small class="error">{{erreurs.typeJeux_id}}</small>
 					{% endif %}
 				</label>
 				<label>Prix
@@ -50,10 +50,28 @@
 						<small class="error">{{erreurs.photo}}</small>
 					{% endif %}
 				</label>
+				<label>Plateforme :
+					<input name="plateforme"  type="text"  size="18" value="{{donnees.plateforme}}" />
+					{% if erreurs.plateforme is defined %}
+						<small class="error">{{erreurs.plateforme}}</small>
+					{% endif %}
+				</label>
+				<label>Dispo :
+					<input name="dispo"  type="text"  size="18" 	value="{{donnees.dispo}}"/>
+					{% if erreurs.dispo is defined %}
+						<small class="error">{{erreurs.dispo}}</small>
+					{% endif %}
+				</label>
+				<label>Stock :
+					<input name="stock"  type="text"  size="18" 	value="{{donnees.stock}}"/>
+					{% if erreurs.stock is defined %}
+						<small class="error">{{erreurs.stock}}</small>
+					{% endif %}
+				</label>
 
 				<input type="hidden" id="_method" name="_method" value="put" />
 
-				<input type="submit" name="modifierProduit" value="Modifier" />
+				<input type="submit" name="modifierJeux" value="Modifier" />
 			</fieldset>
 		</div>
 	</form>
