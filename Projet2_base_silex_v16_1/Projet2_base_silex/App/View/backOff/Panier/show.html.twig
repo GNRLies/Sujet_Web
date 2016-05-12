@@ -6,7 +6,7 @@
 		{% endif %}
 
 		<table>
-			<caption> Votre pannier </caption>
+			<caption> Votre panier </caption>
 			<thead>
 			<tr><th>nom</th></th><th>prix</th><th>dateAjoutPanier<th>quantite</th></th>
 				{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
@@ -19,7 +19,6 @@
 
 				<tr>
 					<td>{{panier.nom}}</td><td>{{panier.prix}}</td><td>{{panier.dateAjoutPanier}}</td><td>{{panier.quantite}}</td><td>}
-					</td><td> {{panier.commande_id}}
 					</td>
 					{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
 						<td>

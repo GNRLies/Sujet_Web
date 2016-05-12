@@ -18,6 +18,7 @@ class UserController implements ControllerProviderInterface {
 		return $app["twig"]->render('v_session_connexion.html.twig');
 	}
 
+
 	public function validFormConnexionUser(Application $app)
 	{
 
@@ -32,6 +33,7 @@ class UserController implements ControllerProviderInterface {
 		{
 			$app['session']->set('droit', $data['droit']);  //dans twig {{ app.session.get('droit') }}
 			$app['session']->set('login', $data['login']);
+			$app['session']->set('user_id', $data['id']);
 			$app['session']->set('logged', 1);
 			return $app->redirect($app["url_generator"]->generate("Jeux.index"));
 		}

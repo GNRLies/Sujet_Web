@@ -13,15 +13,17 @@ class PanierModel {
         $this->db = $app['db'];
     }
     // http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/query-builder.html#join-clauses
-    public function getAllPanier() {
+    public function getAllPanier($data) {
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
-            ->select('p.id', 'p.quantite', 'p.prix', 'p.dateAjoutPanier', 'p.user_id', 'p.jeux_id', 'p.commande_id')
+            ->select('p.id', 'p.quantite', 'p.prix', 'p.dateAjoutPanier', 'p.user_id', 'p.jeux_id', 'p.commande_id', 'j.nom')
             ->from('Paniers', 'p')
+            ->where('p.user_id = :user_id')
             ->innerJoin('p', 'users', 'u', 'p.user_id=u.id')
             ->innerJoin('p', 'jeux', 'j', 'p.jeux_id=j.id')
-            ->innerJoin('p', 'commandes', 'c', 'p.commande_id=c.id')
-            ->addOrderBy('p.id', 'ASC');
+            //->innerJoin('p', 'commandes', 'c', 'p.commande_id=c.id')
+            ->addOrderBy('p.id', 'ASC')
+            ->setParameter('user_id', $data);
         return $queryBuilder->execute()->fetchAll();
 
     }

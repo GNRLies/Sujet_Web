@@ -112,3 +112,6 @@ INSERT INTO paniers  (id,quantite,prix,user_id,jeux_id) VALUES
 (1,1, '25',1,1);
 
 
+INSERT INTO paniers  (id,quantite,prix,user_id,jeux_id) VALUES
+  (2,1, '25',2,1);
+

@@ -23,8 +23,6 @@
 						{{Jeux.stock}}</td><td>
 						{{Jeux.dispo}}</td>
 					{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
-						<td>
-						</td>
 					{% endif %}
 					<td><a href="{{ path('Jeux.show') }}"> <img src={{asset('images/boutonajout.jpg')}} style="width:50px" ></a></td>
 				</tr>
