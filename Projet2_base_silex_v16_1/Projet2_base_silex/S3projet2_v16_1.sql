@@ -108,4 +108,7 @@ CREATE TABLE IF NOT EXISTS paniers (
   CONSTRAINT fk_paniers_commandes FOREIGN KEY (commande_id) REFERENCES commandes (id)
 ) DEFAULT CHARSET=utf8 ;
 
+INSERT INTO paniers  (id,quantite,prix,user_id,jeux_id) VALUES
+(1,1, '25',1,1);
+
 

@@ -9,7 +9,6 @@
 			<thead>
 			<tr><th>nom</th>><th>type</th><th>prix</th><th>plateforme</th><th>photo</th><th>stock</th><th>dispo</th><th>Ajouter au panier</th>
 				{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
-					<th>opération</th>
 				{% endif %}
 			</tr>
 			</thead>
