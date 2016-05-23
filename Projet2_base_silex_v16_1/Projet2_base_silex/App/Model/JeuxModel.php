@@ -73,10 +73,10 @@ class JeuxModel {
             ->setParameter(1, $donnees['typeJeux_id'])
             ->setParameter(2, $donnees['prix'])
             ->setParameter(3, $donnees['photo'])
-            ->setParameter(2, $donnees['plateforme'])
-            ->setParameter(3, $donnees['dispo'])
-            ->setParameter(3, $donnees['stock'])
-            ->setParameter(4, $donnees['id']);
+            ->setParameter(4, $donnees['plateforme'])
+            ->setParameter(5, $donnees['dispo'])
+            ->setParameter(6, $donnees['stock'])
+            ->setParameter(7, $donnees['id']);
         return $queryBuilder->execute();
     }
 
