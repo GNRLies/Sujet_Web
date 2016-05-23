@@ -19,4 +19,27 @@ class UserModel {
 		else
 			return false;
 	}
+	public function updateClient($donnees) {
+		$queryBuilder = new QueryBuilder($this->db);
+		$queryBuilder
+			->update('users')
+			->set('email', '?')
+			->set('password','?')
+			->set('login','?')
+			->set('nom','?')
+			->set('code_postale','?')
+			->set('ville','?')
+			->set('adresse','?')
+			->where('id= ?')
+			->setParameter(0, $donnees['email'])
+			->setParameter(1, $donnees['password'])
+			->setParameter(2, $donnees['login'])
+			->setParameter(3, $donnees['nom'])
+			->setParameter(4, $donnees['code_postale'])
+			->setParameter(5, $donnees['ville'])
+			->setParameter(6, $donnees['stock'])
+			->setParameter(7, $donnees['adresse'])
+			->setParameter(8, $donnees['id']);
+		return $queryBuilder->execute();
+	}
 }
