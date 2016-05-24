@@ -45,17 +45,30 @@ class PanierModel {
         ;
         return $queryBuilder->execute();
     }
-    function deletePanier($jeux_id,$user_id){
+
+    public function deletePanier($jeux_id, $user_id){
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
             ->delete('paniers')
-            ->where('jeux_id = :jeux_id')
-            ->andWhere('$user_id = :$user_id')
-            ->setParameter('jeux_id',$jeux_id)
+            ->where('user_id =:user_id')
+            ->andWhere('jeux_id=:jeux_id')
             ->setParameter('user_id',$user_id)
+            ->setParameter('jeux_id',$jeux_id)
         ;
         return $queryBuilder->execute();
     }
+
+    public function updatePanier($jeux_id, $user_id) {
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder
+            ->update('paniers')
+            ->where('user_id =:user_id')
+            ->andWhere('jeux_id=:jeux_id')
+            ->set('quantite', '?')
+            ->setParameter(0, $paniers['quantite']);
+        return $queryBuilder->execute();
+    }
+
     function countNbJeuxLigne($jeux_id,$user_id){
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
@@ -66,8 +79,33 @@ class PanierModel {
             ->setParameter('jeux_id',$jeux_id)->setParameter('idUser',$user_id);
         return $queryBuilder->execute()->fetchColumn(0);
     }
-    //fais
 
+    public function updateJeuxLigneAdd($jeux_id, $user_id){
+        $queryBuilder = new QueryBuilder($this->db);
+        $prix = (float) $queryBuilder->select('prix')->from('jeux')->where('id=:jeux_id')
+            ->setParameter('jeux_id', $jeux_id)->execute()->fetchColumn(0);
+        $queryBuilder ->update('paniers')
+            ->set('quantite','quantite+1')->set('prix',':prix')
+            ->where('jeux_id = :jeux_id')->andWhere('user_id = :user_id')
+            ->andWhere('commande_id is Null')
+            ->setParameter('prix',$prix)->setParameter('jeux_id',$jeux_id)
+            ->setParameter('user_id',$user_id);
+        return $queryBuilder->execute();
+    }
+
+    public function updateJeuxLigneDel($jeux_id, $user_id){
+        $queryBuilder = new QueryBuilder($this->db);
+        $prix = (float) $queryBuilder->select('prix')->from('jeux')->where('id=:jeux_id')
+            ->setParameter('jeux_id', $jeux_id)->execute()->fetchColumn(0);
+        $queryBuilder ->update('paniers')
+            ->set('quantite','quantite-1')->set('prix',':prix')
+            ->where('jeux_id = :jeux_id')->andWhere('user_id = :user_id')
+            ->andWhere('commande_id is Null')
+            ->setParameter('prix',$prix)
+            ->setParameter('jeux_id',$jeux_id)
+            ->setParameter('user_id',$user_id);
+        return $queryBuilder->execute();
+    }
 
 
 }

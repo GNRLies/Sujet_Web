@@ -19,6 +19,7 @@ use Symfony\Component\Security;
 class PanierController implements ControllerProviderInterface
 {
     private $panierModel;
+    private $jeuxModel;
 
     public function __construct()
     {
@@ -35,11 +36,34 @@ class PanierController implements ControllerProviderInterface
         return $app["twig"]->render('backOff/Panier/show.html.twig',['data'=>$panier]);
     }
 
-    public function add(Application $app) {
-        $this->typeJeuxModel = new TypeJeuxModel($app);
-        $typeJeux = $this->typeJeuxModel->getAllTypeJeux();
-        return $app["twig"]->render('backOff/Jeux/add.html.twig',['typeJeux'=>$typeJeux,'path'=>BASE_URL]);
-        return "add Jeux";
+    public function add(Application $app, Request $req) {
+        $this->jeuxModel = new JeuxModel($app);
+        $this->panierModel = new PanierModel($app);
+        $jeux_id = $app->escape($req->get('id'));
+        $user_id = $app['session']->get('user_id');
+        if($this->panierModel->countNbJeuxLigne($jeux_id,$user_id)>0){
+            $this->panierModel->updateJeuxLigneAdd($jeux_id,$user_id);
+        }
+        else {
+            $this->panierModel->insertPanier($jeux_id,$user_id);
+        }
+        return $app->redirect($app["url_generator"]->generate("Jeux.index"));
+        return "add Panier";
+    }
+
+    public function delete(Application $app,Request $req){
+        $this->jeuxModel = new JeuxModel($app);
+        $this->panierModel = new PanierModel($app);
+        $jeux_id = $app->escape($req->get('id'));
+        $user_id = $app['session']->get('user_id');
+        if($this->panierModel->countNbJeuxLigne($jeux_id,$user_id)!=1){
+            $this->panierModel->updateJeuxLigneDel($jeux_id,$user_id);
+        }
+        else {
+            $this->panierModel->deletePanier($jeux_id,$user_id);
+        }
+        return $app->redirect($app["url_generator"]->generate("Jeux.index"));
+        return "delete Panier";
     }
 
     public function validFormAdd(Application $app, Request $req) {
@@ -81,15 +105,6 @@ class PanierController implements ControllerProviderInterface
 
     }
 
-    public function delete(Application $app, $id) {
-        $this->typeJeuxModel = new TypeJeuxModel($app);
-        $typeJeux = $this->typeJeuxModel->getAllTypeJeux();
-        $this->JeuxModel = new JeuxModel($app);
-        $donnees = $this->JeuxModel->getJeux($id);
-        return $app["twig"]->render('backOff/Jeux/delete.html.twig',['typeJeux'=>$typeJeux,'donnees'=>$donnees]);
-        return "add Jeux";
-    }
-
     public function validFormDelete(Application $app, Request $req) {
         $id=$app->escape($req->get('id'));
         if (is_numeric($id)) {
@@ -103,12 +118,12 @@ class PanierController implements ControllerProviderInterface
 
 
     public function edit(Application $app, $id) {
-        $this->typeJeuxModel = new TypeJeuxModel($app);
-        $typeJeux = $this->typeJeuxModel->getAllTypeJeux();
-        $this->JeuxModel = new JeuxModel($app);
-        $donnees = $this->JeuxModel->getJeux($id);
-        return $app["twig"]->render('backOff/Jeux/edit.html.twig',['typeJeux'=>$typeJeux,'donnees'=>$donnees]);
-        return "add Jeux";
+        $this->panierModel = new PanierModel($app);
+        $donnees = $this->panierModel->getAllPanier($id);
+        $this->produitModel->updatePanier($id);
+        $donnees->render(array('donnees' => $donnees ,'path'=>BASE_URL));
+        return $app->redirect($app["url_generator"]->generate("Panier.show"));
+        return "edit Panier";
     }
 
     /**
@@ -210,6 +225,9 @@ class PanierController implements ControllerProviderInterface
 
         $controllers->get('/', 'App\Controller\PanierController::index')->bind('Panier.index');
         $controllers->get('/show', 'App\Controller\PanierController::show')->bind('Panier.show');
+        $controllers->get('/add/{id}', 'App\Controller\PanierController::add')->bind('Panier.add')->assert('id', '\d+');;
+        $controllers->get('/delete/{id}', 'App\Controller\PanierController::delete')->bind('Panier.delete')->assert('id', '\d+');;
+        $controllers->put('/edit', 'App\Controller\PanierController::edit')->bind('Panier.edit');
 
 
         $controllers->get('/add', 'App\Controller\PanierController::add')->bind('Panier.add');
@@ -219,6 +237,8 @@ class PanierController implements ControllerProviderInterface
 
         $controllers->get('/edit/{id}', 'App\Controller\JeuxController::edit')->bind('Jeux.edit')->assert('id', '\d+');;
         $controllers->put('/edit', 'App\Controller\JeuxController::validFormEdit')->bind('Jeux.validFormEdit');
+
+
 
         return $controllers;
     }

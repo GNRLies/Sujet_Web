@@ -1,14 +1,15 @@
 {% extends "layout.html.twig" %}
 {% block contenu %}
 	<div class="row">
-		{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
-		{% endif %}
 
 		<table>
 			<caption>Recapitulatifs des produits (avec twig)</caption>
 			<thead>
-			<tr><th>nom</th>><th>type</th><th>prix</th><th>plateforme</th><th>photo</th><th>stock</th><th>dispo</th><th>Ajouter au panier</th>
+			<tr><th>nom</th>><th>type</th><th>prix</th><th>plateforme</th><th>photo</th>
 				{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
+				<th>stock</th>{% endif %}<th>dispo</th>
+				{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITclient' %}
+				<th>Ajouter au panier</th>
 				{% endif %}
 			</tr>
 			</thead>
@@ -19,12 +20,12 @@
 					<td>{{Jeux.nom}}</td><td>{{Jeux.libelle}}</td><td>{{Jeux.prix}}</td><td>
 						{{Jeux.plateforme}}</td><td>
 						<img style="width:40px;height:40px" src="{{asset('images/')}}{{Jeux.photo}}" alt="image de {{Jeux.libelle}}" >
-					</td><td>
-						{{Jeux.stock}}</td><td>
+					</td>{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}<td>
+						{{Jeux.stock}}</td{% endif %}><td>
 						{{Jeux.dispo}}</td>
-					{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
+					{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITclient' %}
+					<td><a href="{{ path('Panier.add', {id: Jeux.id}) }}"> <img src={{asset('images/boutonajout.jpg')}} style="width:50px"  > </a></td>
 					{% endif %}
-					<td><a href="{{ path('Panier.add') }}"> <img src={{asset('images/boutonajout.jpg')}} style="width:50px" ></a></td>
 				</tr>
 			{% endfor %}
 			<tbody>

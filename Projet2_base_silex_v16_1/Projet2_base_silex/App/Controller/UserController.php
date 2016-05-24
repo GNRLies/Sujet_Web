@@ -1,6 +1,6 @@
 <?php
 namespace App\Controller;
-
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Model\UserModel;
 use Silex\Application;
 use Silex\ControllerProviderInterface;
@@ -43,11 +43,48 @@ class UserController implements ControllerProviderInterface {
 			return $app["twig"]->render('v_session_connexion.html.twig');
 		}
 	}
+
 	public function deconnexionSession(Application $app)
 	{
 		$app['session']->clear();
 		$app['session']->getFlashBag()->add('msg', 'vous êtes déconnecté');
 		return $app->redirect($app["url_generator"]->generate("Jeux.index"));
+	}
+
+	public function validFormEdit(Application $app, Request $req, $user_id)
+	{
+		var_dump($app['request']->attributes);
+		if (isset($_POST['email']) && isset($_POST['password']) and isset($_POST['login']) and isset($_POST['code_postale'])and isset($_POST['ville']) and isset($_POST['adressse'])) {
+			$donnees = [
+				'email' => htmlspecialchars($_POST['email']),
+				'password' => htmlspecialchars($req->get('password')),
+				'code_postale' => htmlspecialchars($req->get('prix')),
+				'plateforme' => htmlspecialchars($req->get('plateforme')),
+				'ville' => htmlspecialchars($req->get('ville')),
+				'adressse' => htmlspecialchars($req->get('adressse')),
+			];
+			if ((! preg_match("/^[A-Za-z0-9]{2,}/",$donnees['login']))) $erreurs['login']='login composé de 2 lettres minimum';
+			if ((! preg_match("/^[A-Za-z0-9]{2,}/",$donnees['password']))) $erreurs['password']='mot de passe composé de 2 lettres minimum';
+			if ((! preg_match('#^([\w\.-]+)@([\w\.-]+)(\.[a-z]{2,4})$#',$donnees['email']))) $erreurs['email']='email incorrect';
+			if ((! preg_match("/^[A-Za-z0-9]{2,}/",$donnees['nom']))) $erreurs['nom']='nom composé de 2 lettres minimum';
+			if ((! preg_match("/^[0-9]{5,}/",$donnees['code_postal']))) $erreurs['code_postal']='code postal incorrect';
+			if ((! preg_match("/^[A-Za-z0-9]{2,}/",$donnees['ville']))) $erreurs['ville']='ville inconnu';
+			if ((! preg_match("/^[A-Za-z0-9]{2,}/",$donnees['adresse']))) $erreurs['adresse']='adresse incorrect';
+			if(! is_numeric($user_id))$erreurs['id']='saisir une valeur numérique';
+			if (! empty($erreurs)) {
+				$this->userModel = new UserModel($app);
+				return $app["twig"]->render('frontOff/User/edit.html.twig',['donnees'=>$donnees,'erreurs'=>$erreurs]);
+			}
+			else
+			{
+				$this->userModel = new UserModel($app);
+				$this->userModel->updateUser($donnees,$user_id);
+				return $app->redirect($app["url_generator"]->generate("jeux.index"));
+			}
+		}
+		else{
+			return $app->abort(404, 'error Pb id form edit');
+		}
 	}
 
 	public function connect(Application $app) {
