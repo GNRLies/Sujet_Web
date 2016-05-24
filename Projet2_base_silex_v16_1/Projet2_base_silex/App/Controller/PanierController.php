@@ -225,6 +225,7 @@ class PanierController implements ControllerProviderInterface
 
         $controllers->get('/', 'App\Controller\PanierController::index')->bind('Panier.index');
         $controllers->get('/show', 'App\Controller\PanierController::show')->bind('Panier.show');
+
         $controllers->get('/add/{id}', 'App\Controller\PanierController::add')->bind('Panier.add')->assert('id', '\d+');;
         $controllers->get('/delete/{id}', 'App\Controller\PanierController::delete')->bind('Panier.delete')->assert('id', '\d+');;
         $controllers->put('/edit', 'App\Controller\PanierController::edit')->bind('Panier.edit');

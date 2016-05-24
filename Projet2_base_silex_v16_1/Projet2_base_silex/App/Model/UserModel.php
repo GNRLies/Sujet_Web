@@ -1,6 +1,7 @@
 <?php
 namespace App\Model;
 
+use Doctrine\DBAL\Query\QueryBuilder;
 use Silex\Application;
 
 class UserModel {
@@ -9,6 +10,15 @@ class UserModel {
 
 	public function __construct(Application $app) {
 		$this->db = $app['db'];
+	}
+	public function getUsers($id){
+		$queryBuilder = new QueryBuilder($this->db);
+		$queryBuilder
+			->select('id','email','password','login','nom','code_postal','ville','adresse')
+			->from('users')
+			->where('id=:id')
+			->setParameter('id',$id);
+		return $queryBuilder->execute()->fetch();
 	}
 
 	public function verif_login_mdp_Utilisateur($login,$mdp){
@@ -19,7 +29,7 @@ class UserModel {
 		else
 			return false;
 	}
-	public function updateClient($donnees) {
+	public function updateClient($donnees,$id) {
 		$queryBuilder = new QueryBuilder($this->db);
 		$queryBuilder
 			->update('users')
@@ -27,7 +37,7 @@ class UserModel {
 			->set('password','?')
 			->set('login','?')
 			->set('nom','?')
-			->set('code_postale','?')
+			->set('code_postal','?')
 			->set('ville','?')
 			->set('adresse','?')
 			->where('id= ?')
@@ -35,11 +45,10 @@ class UserModel {
 			->setParameter(1, $donnees['password'])
 			->setParameter(2, $donnees['login'])
 			->setParameter(3, $donnees['nom'])
-			->setParameter(4, $donnees['code_postale'])
+			->setParameter(4, $donnees['code_postal'])
 			->setParameter(5, $donnees['ville'])
-			->setParameter(6, $donnees['stock'])
-			->setParameter(7, $donnees['adresse'])
-			->setParameter(8, $donnees['id']);
+			->setParameter(6, $donnees['adresse'])
+			->setParameter(7, $id);
 		return $queryBuilder->execute();
 	}
 }

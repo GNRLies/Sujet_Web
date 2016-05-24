@@ -50,18 +50,28 @@ class UserController implements ControllerProviderInterface {
 		$app['session']->getFlashBag()->add('msg', 'vous êtes déconnecté');
 		return $app->redirect($app["url_generator"]->generate("Jeux.index"));
 	}
+	public function edit(Application $app){
+		$this->userModel = new UserModel($app);
+		$user_id = $app['session']->get('user_id');
+		$donnees = $this->userModel->getUsers($user_id);
+		return $app["twig"]->render('backOff/user/edit.html.twig',['donnees'=>$donnees]);
+		return "edit User";
+	}
 
-	public function validFormEdit(Application $app, Request $req, $user_id)
+	public function validFormEdit(Application $app)
 	{
-		var_dump($app['request']->attributes);
-		if (isset($_POST['email']) && isset($_POST['password']) and isset($_POST['login']) and isset($_POST['code_postale'])and isset($_POST['ville']) and isset($_POST['adressse'])) {
-			$donnees = [
-				'email' => htmlspecialchars($_POST['email']),
-				'password' => htmlspecialchars($req->get('password')),
-				'code_postale' => htmlspecialchars($req->get('prix')),
-				'plateforme' => htmlspecialchars($req->get('plateforme')),
-				'ville' => htmlspecialchars($req->get('ville')),
-				'adressse' => htmlspecialchars($req->get('adressse')),
+		$this->userModel = new UserModel($app);
+		$user_id = $app['session']->get('user_id');
+		$donnees = $this->userModel->getUsers($user_id);
+		if(isset($_POST['login']) and isset($_POST['password']) and isset($_POST['email']) and isset($_POST['nom']) and isset($_POST['code_postal']) and isset($_POST['ville']) and isset($_POST['adresse'])){
+			$donnees =[
+				'login'=>htmlspecialchars($_POST['login']),
+				'password'=>htmlspecialchars($_POST['password']),
+				'email'=>htmlspecialchars($_POST['email']),
+				'nom'=>htmlspecialchars($_POST['nom']),
+				'code_postal'=>htmlspecialchars($_POST['code_postal']),
+				'ville'=>htmlspecialchars($_POST['ville']),
+				'adresse'=>htmlspecialchars($_POST['adresse'])
 			];
 			if ((! preg_match("/^[A-Za-z0-9]{2,}/",$donnees['login']))) $erreurs['login']='login composé de 2 lettres minimum';
 			if ((! preg_match("/^[A-Za-z0-9]{2,}/",$donnees['password']))) $erreurs['password']='mot de passe composé de 2 lettres minimum';
@@ -73,13 +83,13 @@ class UserController implements ControllerProviderInterface {
 			if(! is_numeric($user_id))$erreurs['id']='saisir une valeur numérique';
 			if (! empty($erreurs)) {
 				$this->userModel = new UserModel($app);
-				return $app["twig"]->render('frontOff/User/edit.html.twig',['donnees'=>$donnees,'erreurs'=>$erreurs]);
+				return $app["twig"]->render('backOff/user/edit.html.twig',['donnees'=>$donnees,'erreurs'=>$erreurs]);
 			}
 			else
 			{
 				$this->userModel = new UserModel($app);
-				$this->userModel->updateUser($donnees,$user_id);
-				return $app->redirect($app["url_generator"]->generate("jeux.index"));
+				$this->userModel->updateClient($donnees,$user_id);
+				return $app->redirect($app["url_generator"]->generate("Jeux.index"));
 			}
 		}
 		else{
@@ -93,6 +103,9 @@ class UserController implements ControllerProviderInterface {
 		$controllers->get('/login', 'App\Controller\UserController::connexionUser')->bind('user.login');
 		$controllers->post('/login', 'App\Controller\UserController::validFormConnexionUser')->bind('user.validFormlogin');
 		$controllers->get('/logout', 'App\Controller\UserController::deconnexionSession')->bind('user.logout');
+		$controllers->get('/edit', 'App\Controller\UserController::edit')->bind('user.edit');
+		$controllers->put('/edit', 'App\Controller\UserController::validFormEdit')->bind('user.validFormEdit');
+
 		return $controllers;
 	}
 }
