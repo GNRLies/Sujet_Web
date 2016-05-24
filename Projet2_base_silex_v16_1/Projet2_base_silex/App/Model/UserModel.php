@@ -30,17 +30,41 @@ class UserModel {
 			return false;
 	}
 	public function updateClient($donnees,$id) {
+	$queryBuilder = new QueryBuilder($this->db);
+	$queryBuilder
+		->update('users')
+		->set('email', '?')
+		->set('password','?')
+		->set('login','?')
+		->set('nom','?')
+		->set('code_postal','?')
+		->set('ville','?')
+		->set('adresse','?')
+		->where('id= ?')
+		->setParameter(0, $donnees['email'])
+		->setParameter(1, $donnees['password'])
+		->setParameter(2, $donnees['login'])
+		->setParameter(3, $donnees['nom'])
+		->setParameter(4, $donnees['code_postal'])
+		->setParameter(5, $donnees['ville'])
+		->setParameter(6, $donnees['adresse'])
+		->setParameter(7, $id);
+	return $queryBuilder->execute();
+	}
+	public function insertClient($donnees) {
 		$queryBuilder = new QueryBuilder($this->db);
-		$queryBuilder
-			->update('users')
-			->set('email', '?')
-			->set('password','?')
-			->set('login','?')
-			->set('nom','?')
-			->set('code_postal','?')
-			->set('ville','?')
-			->set('adresse','?')
-			->where('id= ?')
+		$queryBuilder->insert('users')
+			->values([
+				'email' => '?',
+				'password' => '?',
+				'login' => '?',
+				'nom' => '?',
+				'code_postal' => '?',
+				'ville' => '?',
+				'adresse' => '?',
+				'droit' => '?'
+
+			])
 			->setParameter(0, $donnees['email'])
 			->setParameter(1, $donnees['password'])
 			->setParameter(2, $donnees['login'])
@@ -48,7 +72,7 @@ class UserModel {
 			->setParameter(4, $donnees['code_postal'])
 			->setParameter(5, $donnees['ville'])
 			->setParameter(6, $donnees['adresse'])
-			->setParameter(7, $id);
+			->setParameter(7,"DROITclient");
 		return $queryBuilder->execute();
 	}
 }

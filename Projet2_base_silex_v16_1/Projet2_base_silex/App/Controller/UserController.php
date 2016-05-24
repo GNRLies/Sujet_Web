@@ -57,6 +57,11 @@ class UserController implements ControllerProviderInterface {
 		return $app["twig"]->render('backOff/user/edit.html.twig',['donnees'=>$donnees]);
 		return "edit User";
 	}
+	public function add(Application $app){
+		$this->userModel = new UserModel($app);
+		return $app["twig"]->render('backOff/user/add.html.twig');
+		return "add User";
+	}
 
 	public function validFormEdit(Application $app)
 	{
@@ -96,6 +101,41 @@ class UserController implements ControllerProviderInterface {
 			return $app->abort(404, 'error Pb id form edit');
 		}
 	}
+	public function validFormAdd(Application $app)
+	{
+		$this->userModel = new UserModel($app);
+		if(isset($_POST['login']) and isset($_POST['password']) and isset($_POST['email']) and isset($_POST['nom']) and isset($_POST['code_postal']) and isset($_POST['ville']) and isset($_POST['adresse'])){
+			$donnees =[
+				'login'=>htmlspecialchars($_POST['login']),
+				'password'=>htmlspecialchars($_POST['password']),
+				'email'=>htmlspecialchars($_POST['email']),
+				'nom'=>htmlspecialchars($_POST['nom']),
+				'code_postal'=>htmlspecialchars($_POST['code_postal']),
+				'ville'=>htmlspecialchars($_POST['ville']),
+				'adresse'=>htmlspecialchars($_POST['adresse'])
+			];
+			if ((! preg_match("/^[A-Za-z0-9]{2,}/",$donnees['login']))) $erreurs['login']='login composé de 2 lettres minimum';
+			if ((! preg_match("/^[A-Za-z0-9]{2,}/",$donnees['password']))) $erreurs['password']='mot de passe composé de 2 lettres minimum';
+			if ((! preg_match('#^([\w\.-]+)@([\w\.-]+)(\.[a-z]{2,4})$#',$donnees['email']))) $erreurs['email']='email incorrect';
+			if ((! preg_match("/^[A-Za-z0-9]{2,}/",$donnees['nom']))) $erreurs['nom']='nom composé de 2 lettres minimum';
+			if ((! preg_match("/^[0-9]{5,}/",$donnees['code_postal']))) $erreurs['code_postal']='code postal incorrect';
+			if ((! preg_match("/^[A-Za-z0-9]{2,}/",$donnees['ville']))) $erreurs['ville']='ville inconnu';
+			if ((! preg_match("/^[A-Za-z0-9]{2,}/",$donnees['adresse']))) $erreurs['adresse']='adresse incorrect';
+			if (! empty($erreurs)) {
+				$this->userModel = new UserModel($app);
+				return $app["twig"]->render('backOff/user/add.html.twig',['donnees'=>$donnees,'erreurs'=>$erreurs]);
+			}
+			else
+			{
+				$this->userModel = new UserModel($app);
+				$this->userModel->insertClient($donnees);
+				return $app->redirect($app["url_generator"]->generate("Jeux.index"));
+			}
+		}
+		else{
+			return $app->abort(404, 'error Pb id form edit');
+		}
+	}
 
 	public function connect(Application $app) {
 		$controllers = $app['controllers_factory'];
@@ -105,6 +145,8 @@ class UserController implements ControllerProviderInterface {
 		$controllers->get('/logout', 'App\Controller\UserController::deconnexionSession')->bind('user.logout');
 		$controllers->get('/edit', 'App\Controller\UserController::edit')->bind('user.edit');
 		$controllers->put('/edit', 'App\Controller\UserController::validFormEdit')->bind('user.validFormEdit');
+		$controllers->get('/add', 'App\Controller\UserController::add')->bind('user.add');
+		$controllers->put('/add', 'App\Controller\UserController::validFormAdd')->bind('user.validFormAdd');
 
 		return $controllers;
 	}
