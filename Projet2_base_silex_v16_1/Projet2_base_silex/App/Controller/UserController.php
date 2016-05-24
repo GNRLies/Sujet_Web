@@ -54,12 +54,12 @@ class UserController implements ControllerProviderInterface {
 		$this->userModel = new UserModel($app);
 		$user_id = $app['session']->get('user_id');
 		$donnees = $this->userModel->getUsers($user_id);
-		return $app["twig"]->render('backOff/user/edit.html.twig',['donnees'=>$donnees]);
+		return $app["twig"]->render('frontOff/user/edit.html.twig',['donnees'=>$donnees]);
 		return "edit User";
 	}
 	public function add(Application $app){
 		$this->userModel = new UserModel($app);
-		return $app["twig"]->render('backOff/user/add.html.twig');
+		return $app["twig"]->render('frontOff/user/add.html.twig');
 		return "add User";
 	}
 
@@ -88,7 +88,7 @@ class UserController implements ControllerProviderInterface {
 			if(! is_numeric($user_id))$erreurs['id']='saisir une valeur numérique';
 			if (! empty($erreurs)) {
 				$this->userModel = new UserModel($app);
-				return $app["twig"]->render('backOff/user/edit.html.twig',['donnees'=>$donnees,'erreurs'=>$erreurs]);
+				return $app["twig"]->render('frontOff/user/edit.html.twig',['donnees'=>$donnees,'erreurs'=>$erreurs]);
 			}
 			else
 			{
@@ -123,7 +123,7 @@ class UserController implements ControllerProviderInterface {
 			if ((! preg_match("/^[A-Za-z0-9]{2,}/",$donnees['adresse']))) $erreurs['adresse']='adresse incorrect';
 			if (! empty($erreurs)) {
 				$this->userModel = new UserModel($app);
-				return $app["twig"]->render('backOff/user/add.html.twig',['donnees'=>$donnees,'erreurs'=>$erreurs]);
+				return $app["twig"]->render('frontOff/user/add.html.twig',['donnees'=>$donnees,'erreurs'=>$erreurs]);
 			}
 			else
 			{
