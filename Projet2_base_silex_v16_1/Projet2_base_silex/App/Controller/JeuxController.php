@@ -206,6 +206,9 @@ class JeuxController implements ControllerProviderInterface
         $controllers->get('/edit/{id}', 'App\Controller\JeuxController::edit')->bind('Jeux.edit')->assert('id', '\d+');;
         $controllers->put('/edit', 'App\Controller\JeuxController::validFormEdit')->bind('Jeux.validFormEdit');
 
+        $controllers->get('/', 'App\Controller\CommandeController::index')->bind('commande.index');
+        $controllers->get('/show', 'App\Controller\CommandeController::show')->bind('commande.show');
+
         return $controllers;
     }
 

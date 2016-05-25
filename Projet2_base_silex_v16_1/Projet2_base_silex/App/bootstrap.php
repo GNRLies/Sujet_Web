@@ -57,6 +57,7 @@ $app->mount("/", new App\Controller\IndexController());
 $app->mount("/Jeux", new App\Controller\JeuxController($app));
 $app->mount("/Panier", new App\Controller\PanierController($app));
 $app->mount("/connexion", new App\Controller\UserController($app));
+$app->mount("/Commande", new App\Controller\CommandeController($app));
 
 //On lance l'application
 $app->run();

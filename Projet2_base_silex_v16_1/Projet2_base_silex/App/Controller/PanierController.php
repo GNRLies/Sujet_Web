@@ -131,6 +131,7 @@ class PanierController implements ControllerProviderInterface
         $this->panierModel = new PanierModel($app);
         $user_id = $app['session']->get('user_id');
         $this->panierModel->validerCommande($user_id,$prix);
+        $this->panierModel->deleteAllPanier($user_id);
         return $app->redirect($app["url_generator"]->generate("Jeux.index"));
         return "delete Panier";
     }
