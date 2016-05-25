@@ -19,7 +19,7 @@ class TypeJeuxModel {
         $queryBuilder
             ->select('t.id', 't.libelle')
             ->from('typeJeux', 't')
-            ->addOrderBy('tp.libelle', 'ASC');
+            ->addOrderBy('t.libelle', 'ASC');
         return $queryBuilder->execute()->fetchAll();
     }
 }
