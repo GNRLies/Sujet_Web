@@ -33,7 +33,7 @@ class PanierController implements ControllerProviderInterface
         $userid = $app["session"]->get('user_id');
         $this->panierModel = new PanierModel($app);
         $panier = $this->panierModel->getAllPanier($userid);
-        return $app["twig"]->render('backOff/Panier/show.html.twig',['data'=>$panier]);
+        return $app["twig"]->render('frontOff/Panier/show.html.twig',['data'=>$panier]);
     }
 
     public function add(Application $app, Request $req) {
@@ -90,7 +90,7 @@ class PanierController implements ControllerProviderInterface
             {
                 $this->typeJeuxModel = new TypeJeuxModel($app);
                 $typeJeux = $this->typeJeuxModel->getAllTypeJeux();
-                return $app["twig"]->render('backOff/Jeux/add.html.twig',['donnees'=>$donnees,'erreurs'=>$erreurs,'typeJeux'=>$typeJeux]);
+                return $app["twig"]->render('frontOff/Jeux/add.html.twig',['donnees'=>$donnees,'erreurs'=>$erreurs,'typeJeux'=>$typeJeux]);
             }
             else
             {
@@ -206,7 +206,7 @@ class PanierController implements ControllerProviderInterface
                 if (!empty($erreurs)) {
                     $this->typeJeuxModel = new TypeJeuxModel($app);
                     $typeJeux = $this->typeJeuxModel->getAllTypeJeux();
-                    return $app["twig"]->render('backOff/Jeux/edit.html.twig', ['donnees' => $donnees, 'errors' => $errors, 'erreurs' => $erreurs, 'typeJeux' => $typeJeux]);
+                    return $app["twig"]->render('frontOff/Jeux/edit.html.twig', ['donnees' => $donnees, 'errors' => $errors, 'erreurs' => $erreurs, 'typeJeux' => $typeJeux]);
                 } else {
                     $this->JeuxModel = new JeuxModel($app);
                     $this->JeuxModel->updateJeux($donnees);
@@ -225,6 +225,7 @@ class PanierController implements ControllerProviderInterface
 
         $controllers->get('/', 'App\Controller\PanierController::index')->bind('Panier.index');
         $controllers->get('/show', 'App\Controller\PanierController::show')->bind('Panier.show');
+
         $controllers->get('/add/{id}', 'App\Controller\PanierController::add')->bind('Panier.add')->assert('id', '\d+');;
         $controllers->get('/delete/{id}', 'App\Controller\PanierController::delete')->bind('Panier.delete')->assert('id', '\d+');;
         $controllers->put('/edit', 'App\Controller\PanierController::edit')->bind('Panier.edit');
