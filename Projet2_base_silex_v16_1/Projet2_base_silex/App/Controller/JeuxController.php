@@ -59,7 +59,8 @@ class JeuxController implements ControllerProviderInterface
                 'prix' => htmlspecialchars($req->get('prix')),
                 'photo' => $app->escape($req->get('photo')),
                 'plateforme' => htmlspecialchars($req->get('plateforme')),
-                'dispo' => htmlspecialchars($req->get('dispo'))
+                'dispo' => htmlspecialchars($req->get('dispo')),
+                'stock' => htmlspecialchars($req->get('stock')),
             ];
             if ((!preg_match("/^[A-Za-z ]{2,}/", $donnees['nom']))) $erreurs['nom'] = 'nom composé de 2 lettres minimum';
             if (!is_numeric($donnees['typeJeux_id'])) $erreurs['typeJeux_id'] = 'veuillez saisir une valeur';
@@ -67,6 +68,7 @@ class JeuxController implements ControllerProviderInterface
             if (!preg_match("/[A-Za-z0-9]{2,}.(jpeg|jpg|png)/", $donnees['photo'])) $erreurs['photo'] = 'nom de fichier incorrect (extension jpeg , jpg ou png)';
             if ((!preg_match("/^[A-Za-z ]{2,}/", $donnees['plateforme']))) $erreurs['plateforme'] = 'nom composé de 2 lettres minimum';
             if (!is_numeric($donnees['dispo'])) $erreurs['dispo'] = 'saisir une valeur numérique';
+            if (!is_numeric($donnees['stock'])) $erreurs['stock'] = 'saisir une valeur numérique';
 
             if (!empty($erreurs)) {
                 $this->typeJeuxModel = new TypeJeuxModel($app);
@@ -118,9 +120,10 @@ class JeuxController implements ControllerProviderInterface
                 'nom' => htmlspecialchars($_POST['nom']),                     //echaper les entrées
                 'typeJeux_id' => htmlspecialchars($app['request']->get('typeJeux_id')),
                 'prix' => htmlspecialchars($req->get('prix')),
+                'photo' => $app->escape($req->get('photo')),
                 'plateforme' => htmlspecialchars($req->get('plateforme')),
                 'dispo' => htmlspecialchars($req->get('dispo')),
-                'photo' => $app->escape($req->get('photo')),
+                'stock' => htmlspecialchars($req->get('stock')),
                 'id' => $app->escape($req->get('id')),
                 $req->query->get('photo')
             ];
@@ -157,8 +160,11 @@ class JeuxController implements ControllerProviderInterface
                     'dispo' => new Assert\Type(array(
                         'type' => 'numeric',
                         'message' => 'La valeur {{ value }} n\'est pas valide, le type est {{ type }}.',
-                    ))
-
+                    )),
+                    'stock' => new Assert\Type(array(
+                        'type' => 'numeric',
+                        'message' => 'La valeur {{ value }} n\'est pas valide, le type est {{ type }}.'
+                    )),
                 ]);
             $errors = $app['validator']->validate($donnees, $contraintes);   //ce n'est pas validateValue
 

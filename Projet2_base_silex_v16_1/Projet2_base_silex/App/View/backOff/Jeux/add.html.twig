@@ -1,6 +1,6 @@
 {% extends "layout.html.twig" %}
 {% block contenu %}
-<form method="post" action="{{ path('jeux.validFormAdd') }}">
+<form method="post" action="{{ path('Jeux.validFormAdd') }}">
     <div class="row">
         <fieldset>
             <legend>Creer un Jeux (twig)</legend>
@@ -15,7 +15,7 @@
                     {% if  donnees.typeJeux_id is not defined or donnees.typeJeux_id is empty   %}
                         <option value="">Veuillez sélectionner un Jeux</option>
                     {% endif %}
-                    {% for typeJeux in typeJeuxs %}
+                    {% for typeJeux in typeJeux %}
                         <option value="{{ typeJeux.id }}"
                                 {% if donnees.typeJeux_id is defined and typeJeux.id == donnees.typeJeux_id %}selected{% endif %}>
                             {{ typeJeux.libelle }}
