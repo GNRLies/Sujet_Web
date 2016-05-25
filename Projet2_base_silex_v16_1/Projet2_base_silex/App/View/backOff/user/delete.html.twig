@@ -1,12 +1,11 @@
 {% extends "layout.html.twig" %}
 {% block contenu %}
-    <form method="post" action="{{ path('user.validFormDelete') }}">
+    <form method="post" action="{{ path('user.delete') }}">
         <div class="row">
-
             <fieldset>
-                <legend>Confirmer la suppression du compte : </legend>
-                <input name="id"  type="hidden" value="{{donnees.id}}" />
-                <label>Nom : <h5>{{donnees.login}}</h5> </label>
+                <legend>Confirmer la suppression du jeux suivant : </legend>
+                <input name="id"  type="hidden" value="{{data.id}}" />
+                <label>Nom : <h5>{{data.login}}</h5> </label>
                 <input type="hidden" id="_method" name="_method" value="delete" />
 
                 <input type="submit" name="supprimerUser" value="Supprimer" />

@@ -21,6 +21,16 @@ class UserModel {
 		return $queryBuilder->execute()->fetch();
 	}
 
+	public function getAllUser() {
+		$queryBuilder = new QueryBuilder($this->db);
+		$queryBuilder
+			->select('u.id', 'u.login')
+			->from('users', 'u')
+			->addOrderBy('u.login', 'ASC');
+		return $queryBuilder->execute()->fetchAll();
+
+	}
+
 	public function verif_login_mdp_Utilisateur($login,$mdp){
 		$sql = "SELECT id,login,password,droit FROM users WHERE login = ? AND password = ?";
 		$res=$this->db->executeQuery($sql,[$login,$mdp]);   //md5($mdp);
@@ -73,6 +83,15 @@ class UserModel {
 			->setParameter(5, $donnees['ville'])
 			->setParameter(6, $donnees['adresse'])
 			->setParameter(7,"DROITclient");
+		return $queryBuilder->execute();
+	}
+	public function deleteUser($id) {
+		$queryBuilder = new QueryBuilder($this->db);
+		$queryBuilder
+			->delete('users')
+			->where('id = :id')
+			->setParameter('id',(int)$id)
+		;
 		return $queryBuilder->execute();
 	}
 }

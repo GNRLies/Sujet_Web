@@ -18,6 +18,13 @@ class UserController implements ControllerProviderInterface {
 		return $app["twig"]->render('v_session_connexion.html.twig');
 	}
 
+	public function show(Application $app)
+	{
+		$this->userModel = new UserModel($app);
+		$user = $this->userModel->getAllUser();
+		return $app["twig"]->render('backOff/user/show.html.twig', ['data' => $user]);
+	}
+
 
 	public function validFormConnexionUser(Application $app)
 	{
@@ -137,6 +144,22 @@ class UserController implements ControllerProviderInterface {
 		}
 	}
 
+	public function delete(Application $app){
+		if (isset($_POST['id'])) {
+			$this->userModel = new UserModel($app);
+			$this->userModel->deleteUser($_POST['id']);
+		}
+		return $this->show($app);
+	}
+
+	public function validFormDelete(Application $app,$id)
+	{
+		$this->userModel = new UserModel($app);
+		$data = $this->userModel->getUsers($id);
+		return $app["twig"]->render('backOff/user/delete.html.twig', ['data' => $data]);
+
+	}
+
 	public function connect(Application $app) {
 		$controllers = $app['controllers_factory'];
 		$controllers->match('/', 'App\Controller\UserController::index')->bind('user.index');
@@ -144,10 +167,17 @@ class UserController implements ControllerProviderInterface {
 		$controllers->get('/login', 'App\Controller\UserController::connexionUser')->bind('user.login');
 		$controllers->post('/login', 'App\Controller\UserController::validFormConnexionUser')->bind('user.validFormlogin');
 		$controllers->get('/logout', 'App\Controller\UserController::deconnexionSession')->bind('user.logout');
+
+		$controllers->get('/show', 'App\Controller\UserController::show')->bind('user.show');
+
 		$controllers->get('/edit', 'App\Controller\UserController::edit')->bind('user.edit');
 		$controllers->put('/edit', 'App\Controller\UserController::validFormEdit')->bind('user.validFormEdit');
+
 		$controllers->get('/add', 'App\Controller\UserController::add')->bind('user.add');
 		$controllers->put('/add', 'App\Controller\UserController::validFormAdd')->bind('user.validFormAdd');
+
+		$controllers->get('/delete/{id}', 'App\Controller\UserController::validFormDelete')->bind('user.validFormDelete')->assert('id', '\d+');
+		$controllers->delete('/delete', 'App\Controller\UserController::delete')->bind('user.delete');
 
 		return $controllers;
 	}
