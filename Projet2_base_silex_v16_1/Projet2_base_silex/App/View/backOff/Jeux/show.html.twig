@@ -8,9 +8,6 @@
 			<tr><th>nom</th>><th>type</th><th>prix</th><th>plateforme</th><th>photo</th>
 				{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
 				<th>stock</th>{% endif %}<th>dispo</th>
-				{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITclient' %}
-				<th>Ajouter au panier</th>
-				{% endif %}
 			</tr>
 			</thead>
 			<tbody>
@@ -37,6 +34,7 @@
 
 		{% endif %}
 		<table>
+			{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITclient' %}
 			<caption> Votre panier </caption>
 			<thead>
 			<tr><th>nom</th></th><th>prix</th><th>dateAjoutPanier<th>quantite</th><th>Supprimer</th>
@@ -66,5 +64,6 @@
 		<a href="{{ path('Panier.deleteAll')}}"> Vider le panier   </a>
 		{% endfor %}
 	</div>
+			{% endif %}
 {% endblock %}
 
