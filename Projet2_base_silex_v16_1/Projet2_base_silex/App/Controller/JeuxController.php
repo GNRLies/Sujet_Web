@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Model\JeuxModel;
+use App\Model\PanierModel;
 use Silex\Application;
 use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
@@ -33,7 +34,11 @@ class JeuxController implements ControllerProviderInterface
     {
         $this->jeuxModel = new JeuxModel($app);
         $jeux = $this->jeuxModel->getAllJeux();
-        return $app["twig"]->render('backOff/Jeux/show.html.twig', ['data' => $jeux]);
+        $panierModel = new PanierModel($app);
+        $user_id = $app['session']->get('user_id');
+        $panier = $panierModel->getAllPanier($user_id);
+        $prix = $panierModel->calculprix($user_id);
+        return $app["twig"]->render('backOff/Jeux/show.html.twig',['data'=>$jeux, 'panier' => $panier, 'prix'=>$prix]);
     }
 
     public function add(Application $app)
@@ -99,16 +104,6 @@ class JeuxController implements ControllerProviderInterface
             return $app->abort(404, 'error Pb id form Delete');
     }
 
-
-    public function edit(Application $app, $id)
-    {
-        $this->typeJeuxModel = new TypeJeuxModel($app);
-        $typeJeux = $this->typeJeuxModel->getAllTypeJeux();
-        $this->JeuxModel = new JeuxModel($app);
-        $donnees = $this->JeuxModel->getJeux($id);
-        return $app["twig"]->render('backOff/Jeux/edit.html.twig', ['typeJeux' => $typeJeux, 'donnees' => $donnees]);
-        return "add Jeux";
-    }
 
     /**
      * @param Application $app

@@ -140,6 +140,7 @@ class UserController implements ControllerProviderInterface {
 	public function connect(Application $app) {
 		$controllers = $app['controllers_factory'];
 		$controllers->match('/', 'App\Controller\UserController::index')->bind('user.index');
+		$controllers->match('/', 'App\Controller\UserController::index')->bind('user.edit');
 		$controllers->get('/login', 'App\Controller\UserController::connexionUser')->bind('user.login');
 		$controllers->post('/login', 'App\Controller\UserController::validFormConnexionUser')->bind('user.validFormlogin');
 		$controllers->get('/logout', 'App\Controller\UserController::deconnexionSession')->bind('user.logout');

@@ -4,7 +4,6 @@
 		{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
 
 		{% endif %}
-
 		<table>
 			<caption> Votre panier </caption>
 			<thead>
@@ -18,8 +17,8 @@
 			{% for panier in data if data is not empty %}
 
 				<tr>
-					<td>{{panier.nom}}</td><td>{{panier.prix}}</td><td>{{panier.dateAjoutPanier}}</td><td><input name="quantite"  type="text"  size="5" value="{{panier.quantite}}" /></td>
-					<td><a href="{{ path('Panier.delete', {id: panier.id}) }}"> <img src={{asset('images/boutonsuppr.jpg')}} style="width:50px"  > </a></td>
+					<td>{{panier.nom}}</td><td>{{panier.prix}}</td><td>{{panier.dateAjoutPanier}}</td><td>{{panier.quantite}}</td>
+					<td><a href="{{ path('Panier.delete', {id: panier.jeux_id}) }}"> <img src={{asset('images/boutonsuppr.jpg')}} style="width:50px"  > </a></td>
 					</td>
 					{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
 						<td>
@@ -29,8 +28,6 @@
 			{% endfor %}
 			<tbody>
 		</table>
-
-		<a href="{{ path('Panier.edit')}}"> Mettre à jour le panier</a> </br>
 		<a href=""> Valider le panier   </a>
 	</div>
 {% endblock %}

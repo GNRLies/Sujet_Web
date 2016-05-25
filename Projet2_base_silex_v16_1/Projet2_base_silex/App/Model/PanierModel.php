@@ -58,26 +58,27 @@ class PanierModel {
         return $queryBuilder->execute();
     }
 
-    public function updatePanier($jeux_id, $user_id) {
-        $queryBuilder = new QueryBuilder($this->db);
-        $queryBuilder
-            ->update('paniers')
-            ->where('user_id =:user_id')
-            ->andWhere('jeux_id=:jeux_id')
-            ->set('quantite', '?')
-            ->setParameter(0, $paniers['quantite']);
-        return $queryBuilder->execute();
-    }
 
     function countNbJeuxLigne($jeux_id,$user_id){
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder
-            ->select('count(jeux_id)')->from('paniers')
+            ->select('quantite')->from('paniers')
             ->where('jeux_id= :jeux_id')
             ->andWhere('user_id = :idUser')
             ->andWhere('commande_id is Null')
             ->setParameter('jeux_id',$jeux_id)->setParameter('idUser',$user_id);
         return $queryBuilder->execute()->fetchColumn(0);
+    }
+
+    public function calculprix($user_id) {
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder
+            ->select('SUM(prix*quantite) AS prix')
+            ->from('Paniers')
+            ->where('user_id = :user_id')
+            ->setParameter('user_id', $user_id);
+        return $queryBuilder->execute()->fetchAll();
+
     }
 
     public function updateJeuxLigneAdd($jeux_id, $user_id){
@@ -104,6 +105,33 @@ class PanierModel {
             ->setParameter('prix',$prix)
             ->setParameter('jeux_id',$jeux_id)
             ->setParameter('user_id',$user_id);
+        return $queryBuilder->execute();
+    }
+
+    public function deleteAllPanier($user_id)
+    {
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder
+            ->delete('paniers')
+            ->where('user_id =:user_id')
+            ->setParameter('user_id',$user_id)
+        ;
+        return $queryBuilder->execute();
+    }
+
+    public function validerCommande($user_id,$prix)
+    {
+        $queryBuilder = new QueryBuilder($this->db);
+        $queryBuilder->insert('commandes')
+            ->values([
+                'user_id' => ':user_id',
+                'prix' =>':prix',
+                'etat_id' => ':etat_id',
+            ])
+            ->setParameter('user_id', $user_id)
+            ->setParameter('prix', $prix)
+            ->setParameter('etat_id', 1)
+        ;
         return $queryBuilder->execute();
     }
 

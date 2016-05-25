@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS commandes (
   id int(11) NOT NULL AUTO_INCREMENT,
   user_id int(11) NOT NULL,
   prix float(6,2) NOT NULL,
-  date_achat date NOT NULL,
+  date_achat timestamp default CURRENT_TIMESTAMP,
   etat_id int(11) NOT NULL,
   PRIMARY KEY (id),
   CONSTRAINT fk_commandes_users FOREIGN KEY (user_id) REFERENCES users (id),
@@ -108,10 +108,4 @@ CREATE TABLE IF NOT EXISTS paniers (
   CONSTRAINT fk_paniers_commandes FOREIGN KEY (commande_id) REFERENCES commandes (id)
 ) DEFAULT CHARSET=utf8 ;
 
-INSERT INTO paniers  (id,quantite,prix,user_id,jeux_id) VALUES
-(1,1, '25',1,1);
-
-
-INSERT INTO paniers  (id,quantite,prix,user_id,jeux_id) VALUES
-  (2,1, '25',2,1);
 
