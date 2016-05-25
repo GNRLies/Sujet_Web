@@ -147,7 +147,7 @@ class PanierController implements ControllerProviderInterface
         $controllers->get('/delete/{id}', 'App\Controller\PanierController::delete')->bind('Panier.delete')->assert('id', '\d+');;
         $controllers->get('/deleteAll', 'App\Controller\PanierController::deleteAll')->bind('Panier.deleteAll');
       //  $controllers->get('/valider', 'App\Controller\PanierController::valider')->bind('Panier.valider');
-        $controllers->get('/valider/{prix}', 'App\Controller\PanierController::valider')->bind('Panier.valider');
+        $controllers->get('/valider/{prix}', 'App\Controller\PanierController::valider')->bind('Panier.valider')->value('prix', '0');
 
 
         $controllers->get('/add', 'App\Controller\PanierController::add')->bind('Panier.add');
