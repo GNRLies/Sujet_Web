@@ -22,13 +22,14 @@
 					</td>{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}<td>
 						{{Jeux.stock}}</td{% endif %}><td>
 						{{Jeux.dispo}}</td>
+					{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
+						<td><a href="{{ path('Jeux.delete', {id: Jeux.id}) }}"> <img src={{asset('images/boutonsuppr.jpg')}} style="width:50px"  > </a></td>
+						<td><a href="{{ path('Jeux.edit', {id: Jeux.id}) }}"> <img src={{asset('images/boutonajout.jpg')}} style="width:50px"  > </a></td>
+					{% endif %}
 					{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITclient' %}
 					<td><a href="{{ path('Panier.add', {id: Jeux.id}) }}"> <img src={{asset('images/boutonajout.jpg')}} style="width:50px"  > </a></td>
 					{% endif %}
-					{% if   app.session.get('droit') is defined and  app.session.get('droit') == 'DROITadmin' %}
-						<td><a href="{{ path('Jeux.validFormDelete', {id: Jeux.id}) }}"> <img src={{asset('images/boutonsuppr.jpg')}} style="width:50px"  > </a></td>
-						<td><a href="{{ path('Jeux.validFormEdit', {id: Jeux.id}) }}"> <img src={{asset('images/boutonajout.jpg')}} style="width:50px"  > </a></td>
-					{% endif %}
+
 
 				</tr>
 			{% endfor %}

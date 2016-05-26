@@ -57,6 +57,7 @@ class JeuxModel {
         return $queryBuilder->execute()->fetch();
     }
 
+
     public function updateJeux($donnees) {
         $queryBuilder = new QueryBuilder($this->db);
         $queryBuilder

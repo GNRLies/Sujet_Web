@@ -14,8 +14,8 @@
 			{% endif %}
 
 			<fieldset>
-				<legend>Modifier un jeux  (avec twig)</legend>
-				<input name="id"  type="hidden" value="{{donnees.id}}" />
+				<legend> Modifier un jeux </legend>
+				<input name="id" type="hidden" value="{{donnees.id}}" />
 				<label>Nom :
 					<input name="nom"  type="text"  size="18" value="{{donnees.nom}}" />
 					{% if erreurs.nom is defined %}
@@ -24,9 +24,12 @@
 				</label>
 				<label>Type :
 					<select name="typeJeux_id">
-						{% for typeJeux in typeJeuxs %}
+						{% if  donnees.typeJeux_id is not defined or donnees.typeJeux_id is empty   %}
+							<option value="">Veuillez sélectionner un Jeux</option>
+						{% endif %}
+						{% for typeJeux in typeJeux %}
 							<option value="{{ typeJeux.id }}"
-									{% if donnees.typeJeux_id is defined and typeJeux.id == donnees.typeJeux_id %} selected {% endif %}>
+									{% if donnees.typeJeux_id is defined and typeJeux.id == donnees.typeJeux_id %}selected{% endif %}>
 								{{ typeJeux.libelle }}
 							</option>
 						{% endfor %}

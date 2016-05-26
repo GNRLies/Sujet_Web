@@ -153,11 +153,11 @@ class PanierController implements ControllerProviderInterface
 
         $controllers->get('/add', 'App\Controller\PanierController::add')->bind('Panier.add');
 
-        $controllers->get('/delete/{id}', 'App\Controller\JeuxController::delete')->bind('Jeux.delete')->assert('id', '\d+');;
-        $controllers->delete('/delete', 'App\Controller\JeuxController::validFormDelete')->bind('Jeux.validFormDelete');
+        $controllers->get('/delete/{id}', 'App\Controller\PanierController::delete')->bind('Panier.delete')->assert('id', '\d+');;
+        $controllers->delete('/delete', 'App\Controller\PanierController::validFormDelete')->bind('Panier.validFormDelete');
 
-        $controllers->get('/edit/{id}', 'App\Controller\JeuxController::edit')->bind('Jeux.edit')->assert('id', '\d+');;
-        $controllers->put('/edit', 'App\Controller\JeuxController::validFormEdit')->bind('Jeux.validFormEdit');
+        $controllers->get('/edit/{id}', 'App\Controller\PanierController::edit')->bind('Panier.edit')->assert('id', '\d+');;
+        $controllers->put('/edit', 'App\Controller\PanierController::validFormEdit')->bind('Panier.validFormEdit');
 
 
 
